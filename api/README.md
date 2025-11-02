@@ -20,6 +20,28 @@ Notes:
 - `ENCRYPTION_KEY` should be a base64-encoded 32-byte key.
 - Example `DATABASE_URL` for Postgres (see below): `postgresql+psycopg://mgn:mgn@localhost:5432/mgn`
 
+### Generate ENCRYPTION_KEY
+
+You need a base64-encoded 32-byte key:
+
+- Python:
+
+```bash
+python -c 'import os,base64; print(base64.b64encode(os.urandom(32)).decode())'
+```
+
+- OpenSSL:
+
+```bash
+openssl rand -base64 32
+```
+
+- Node.js:
+
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
+```
+
 ### 2) Run Postgres via Docker
 
 Choose one:
