@@ -1,15 +1,22 @@
-from typing import Union
-
 from fastapi import FastAPI
+
+from .db import Base, engine
+from .auth import router as auth_router
+from .github import router as github_router
 
 app = FastAPI()
 
 
+@app.on_event("startup")
+def on_startup() -> None:
+    # Create DB tables if they do not exist
+    Base.metadata.create_all(bind=engine)
+
+
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
+    return {"status": "ok"}
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+app.include_router(auth_router)
+app.include_router(github_router)
