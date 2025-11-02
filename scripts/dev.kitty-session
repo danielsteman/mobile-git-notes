@@ -1,0 +1,13 @@
+# Kitty session for Mobile Git Notes dev
+
+new_tab ngrok
+cd /Users/danielsteman/repos/mobile-git-notes
+launch --title "ngrok" bash -lc "ngrok http 8000"
+
+new_tab backend
+cd /Users/danielsteman/repos/mobile-git-notes
+launch --title "backend" bash -lc "nix develop .#backend --command bash -lc 'cd api && fastapi dev app/main.py --port 8000'"
+
+new_tab frontend
+cd /Users/danielsteman/repos/mobile-git-notes
+launch --title "frontend" bash -lc "nix develop .#frontend --command bash -lc 'cd mobile-git-notes && npm run start'"

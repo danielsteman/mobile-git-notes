@@ -59,7 +59,7 @@
           frontend = pkgs.mkShell {
             name = "mobile-git-notes-frontend";
             packages = [
-              pkgs.nodejs_20
+              pkgs.nodejs_22
               pkgs.watchman
               unstablePkgs.ngrok
             ];

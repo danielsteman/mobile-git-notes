@@ -170,3 +170,26 @@ Notes:
 
 - External GitHub requests are mocked via `respx`; tests do not hit GitHub.
 - The test suite uses an in-memory SQLite DB with dependency overrides; no Postgres needed.
+
+## Nix dev shells (explicit installs)
+
+Use the repo's Nix dev shells to mirror CI and keep installs explicit.
+
+### Backend shell (first-time setup)
+
+```bash
+nix develop .#backend --command bash -lc "pip install -e ./api[dev] && pre-commit install"
+```
+
+### Backend shell (run lint/tests)
+
+```bash
+nix develop .#backend --command bash -lc "cd api && pre-commit run --all-files"
+nix develop .#backend --command bash -lc "cd api && pytest"
+```
+
+### Backend shell (start API)
+
+```bash
+nix develop .#backend --command bash -lc "cd api && fastapi dev app/main.py --port 8000"
+```

@@ -35,6 +35,28 @@ npm run reset-project
 
 This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
 
+## Using Nix dev shell (frontend)
+
+Keep installs explicit; the shell only provides Node/npm.
+
+- Install deps explicitly:
+
+```bash
+nix develop .#frontend --command bash -lc "cd mobile-git-notes && npm ci"
+```
+
+- Lint:
+
+```bash
+nix develop .#frontend --command bash -lc "cd mobile-git-notes && npm run lint"
+```
+
+- Start the app:
+
+```bash
+nix develop .#frontend --command bash -lc "cd mobile-git-notes && npm run start"
+```
+
 ## Learn more
 
 To learn more about developing your project with Expo, look at the following resources:
