@@ -7,7 +7,7 @@ I've been journaling in a private repo, in markdown files, use a pre-commit hook
 Start a multi-tab Kitty session for ngrok, backend and frontend:
 
 ```bash
-bash /Users/danielsteman/repos/mobile-git-notes/scripts/start-dev-kitty.sh
+bash scripts/start-dev-kitty.sh
 ```
 
 Tabs created:
