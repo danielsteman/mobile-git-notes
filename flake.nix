@@ -35,7 +35,23 @@
             shellHook = ''
               export POETRY_VIRTUALENVS_IN_PROJECT=true
               echo "Backend shell: Python $(python --version), Poetry $(poetry --version)"
-              echo "Tip: cd api && poetry install"
+
+              # Always work from the api directory if present at repo root
+              if [ -d "api" ] && [ -f "api/pyproject.toml" ]; then
+                cd api || true
+              fi
+
+              # Ensure Poetry uses the Nix Python, install deps (incl. dev extra) every time, then activate venv
+              if [ -f "pyproject.toml" ]; then
+                poetry env use "$(command -v python)" >/dev/null 2>&1 || true
+                poetry install --no-interaction --extras dev --sync || poetry install --no-interaction --sync
+                VENV_PATH="$(poetry env info --path 2>/dev/null || echo .venv)"
+                if [ -d "$VENV_PATH" ]; then
+                  . "$VENV_PATH/bin/activate" 2>/dev/null || true
+                fi
+                echo "Poetry deps ensured and venv activated from: $VENV_PATH"
+              fi
+
               echo "Ngrok available: run 'ngrok http http://localhost:8000'"
             '';
           };
