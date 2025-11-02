@@ -11,11 +11,15 @@ branches:
       enforce_admins: true
       required_status_checks:
         strict: true
-        contexts: ["Commitlint"]
+        contexts: ["Commitlint / lint"]
       required_pull_request_reviews:
         required_approving_review_count: 1
         dismiss_stale_reviews: true
       required_conversation_resolution: true
+      restrictions:
+        users: []
+        teams: []
+        apps: ["github-actions"]
       allow_deletions: false
       allow_force_pushes: false
       # Do NOT enable required_linear_history when using merge commits
