@@ -2,6 +2,18 @@ import base64
 import os
 from typing import Generator
 
+# Ensure required environment variables exist before importing the app modules
+if "DATABASE_URL" not in os.environ:
+    os.environ["DATABASE_URL"] = "sqlite+pysqlite:///:memory:"
+if "GITHUB_CLIENT_ID" not in os.environ:
+    os.environ["GITHUB_CLIENT_ID"] = "test-client-id"
+if "GITHUB_CLIENT_SECRET" not in os.environ:
+    os.environ["GITHUB_CLIENT_SECRET"] = "test-client-secret"
+if "JWT_SECRET" not in os.environ:
+    os.environ["JWT_SECRET"] = "test-jwt-secret"
+if "ENCRYPTION_KEY" not in os.environ:
+    os.environ["ENCRYPTION_KEY"] = base64.b64encode(os.urandom(32)).decode("ascii")
+
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
