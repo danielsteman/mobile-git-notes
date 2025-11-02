@@ -25,11 +25,11 @@ jobs:
 
       - name: Run pre-commit in Nix dev shell (api/)
         run: |
-          nix develop .#backend --command bash -lc "cd api && pre-commit run --all-files"
+          nix develop .#backend --command bash -lc "pre-commit run --all-files"
 
       - name: Run pytest in Nix dev shell (api/)
         run: |
-          nix develop .#backend --command bash -lc "cd api && pytest"
+          nix develop .#backend --command bash -lc "pytest"
 
   frontend-lint:
     name: Frontend ESLint
