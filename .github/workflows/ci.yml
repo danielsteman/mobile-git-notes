@@ -9,11 +9,31 @@ permissions:
   contents: read
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      mobile: ${{ steps.filter.outputs.mobile }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Detect changed paths
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            backend:
+              - 'api/**'
+              - '.github/workflows/**'
+            mobile:
+              - 'mobile-git-notes/**'
+              - '.github/workflows/**'
   backend-lint:
     name: Backend pre-commit
     runs-on: ubuntu-latest
     # Only run if the PR's source branch is not main
-    if: github.event.pull_request.head.ref != 'main'
+    needs: changes
+    if: github.event.pull_request.head.ref != 'main' && needs.changes.outputs.backend == 'true'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,7 +55,8 @@ jobs:
     name: Frontend ESLint
     runs-on: ubuntu-latest
     # Only run if the PR's source branch is not main
-    if: github.event.pull_request.head.ref != 'main'
+    needs: changes
+    if: github.event.pull_request.head.ref != 'main' && needs.changes.outputs.mobile == 'true'
     steps:
       - name: Checkout
         uses: actions/checkout@v4
