@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+
+jobs:
+  backend-lint:
+    name: Backend pre-commit
+    runs-on: ubuntu-latest
+    # Only run if the PR's source branch is not main
+    if: github.event.pull_request.head.ref != 'main'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v27
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+
+      - name: Run pre-commit in Nix dev shell (api/)
+        run: |
+          nix develop .#backend --command bash -lc "cd api && pre-commit run --all-files"
+
+      - name: Run pytest in Nix dev shell (api/)
+        run: |
+          nix develop .#backend --command bash -lc "cd api && pytest"
+
+  frontend-lint:
+    name: Frontend ESLint
+    runs-on: ubuntu-latest
+    # Only run if the PR's source branch is not main
+    if: github.event.pull_request.head.ref != 'main'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v27
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+
+      - name: npm ci + lint in Nix dev shell (mobile-git-notes/)
+        run: |
+          nix develop .#frontend --command bash -lc "cd mobile-git-notes && npm ci && npm run lint"
