@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/danielsteman/mobile-git-notes/compare/v1.0.0...v1.0.1) (2025-11-02)
+
+
+### Bug Fixes
+
+* repo settings ([9436cac](https://github.com/danielsteman/mobile-git-notes/commit/9436cacf696130d86e07b1e36659cfdf101b3233))
+
 # 1.0.0 (2025-11-02)
 
 
