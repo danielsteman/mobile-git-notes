@@ -6,8 +6,8 @@ from app.models import OAuthToken, User
 from app.security import encrypt_value, issue_app_jwt
 
 
-def _seed_user_with_token(db_session):
-    user = User(github_id=999, login="tester", avatar_url=None)
+def _seed_user_with_token(db_session, github_id=999):
+    user = User(github_id=github_id, login="tester", avatar_url=None)
     db_session.add(user)
     db_session.flush()
     token = OAuthToken(
@@ -21,7 +21,7 @@ def _seed_user_with_token(db_session):
 
 
 def test_create_repo(client, db_session):
-    user = _seed_user_with_token(db_session)
+    user = _seed_user_with_token(db_session, github_id=999)
     jwt_token = issue_app_jwt(user.id)
 
     with respx.mock(assert_all_called=True) as mock:
@@ -41,7 +41,7 @@ def test_create_repo(client, db_session):
 
 
 def test_put_file(client, db_session):
-    user = _seed_user_with_token(db_session)
+    user = _seed_user_with_token(db_session, github_id=1000)
     jwt_token = issue_app_jwt(user.id)
     content_b64 = base64.b64encode(b"hello world\n").decode("ascii")
 

@@ -132,3 +132,41 @@ Notes:
 - `POST /auth/github/exchange` → Exchange OAuth code for GitHub token, store encrypted, return app JWT
 - `POST /github/repos` → Create a repository as the user
 - `PUT /github/repos/{owner}/{repo}/contents/{path}` → Create/update a file via GitHub Contents API
+
+## Testing
+
+Install dev dependencies and run the test suite.
+
+### Install test dependencies
+
+- Using pip (recommended for this project’s PEP 621 config):
+
+```bash
+python -m venv .venv && source .venv/bin/activate
+pip install -e ./api[dev]
+```
+
+### Run tests
+
+```bash
+cd api
+pytest
+```
+
+Run with coverage:
+
+```bash
+pytest --cov=app --cov-report=term-missing
+```
+
+Run a single test file or test:
+
+```bash
+pytest api/tests/test_auth_exchange.py -q
+pytest -k exchange_code_success -q
+```
+
+Notes:
+
+- External GitHub requests are mocked via `respx`; tests do not hit GitHub.
+- The test suite uses an in-memory SQLite DB with dependency overrides; no Postgres needed.
