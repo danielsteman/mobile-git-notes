@@ -1,0 +1,19 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: mgn-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: mgn
+      POSTGRES_PASSWORD: mgn
+      POSTGRES_DB: mgn
+    volumes:
+      - mgn_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "mgn"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+volumes:
+  mgn_pg_data:
