@@ -68,7 +68,9 @@ jobs:
             cd api && \
             export POETRY_VIRTUALENVS_IN_PROJECT=true && \
             poetry --version && \
-            poetry env use python && \
+            (poetry env remove --all || true) && \
+            poetry env use \"$(command -v python)\" && \
+            poetry run python -V && \
             poetry install --no-interaction --no-ansi --with dev && \
             poetry run pytest"
 
