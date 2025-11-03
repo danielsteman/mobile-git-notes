@@ -18,7 +18,7 @@ export default function OAuthCapture() {
           return;
         }
         await setToken(token);
-        router.replace("/(tabs)/account");
+        router.replace("/(tabs)/home");
       } catch (e: any) {
         setError(e?.message ?? "Failed to store token");
       }

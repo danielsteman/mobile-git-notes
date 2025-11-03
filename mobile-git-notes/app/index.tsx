@@ -1,47 +1,18 @@
 import * as WebBrowser from "expo-web-browser";
-import { useCallback, useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  Alert,
-  Pressable,
-  StyleSheet,
-  View,
-} from "react-native";
+import { useCallback, useEffect } from "react";
+import { ActivityIndicator, Alert, View, Text } from "react-native";
 import { router } from "expo-router";
-
-import { ThemedText } from "@/components/themed-text";
-import { ThemedView } from "@/components/themed-view";
-import { Colors } from "@/constants/theme";
-import { isLoggedIn } from "@/lib/auth";
-
-function PrimaryButton({
-  title,
-  onPress,
-}: {
-  title: string;
-  onPress: () => void;
-}) {
-  return (
-    <Pressable
-      accessibilityRole="button"
-      style={styles.button}
-      onPress={onPress}
-    >
-      <ThemedText style={styles.buttonText}>{title}</ThemedText>
-    </Pressable>
-  );
-}
+import { useUser } from "@/lib/user-context";
+import { Button } from "@/components/ui/button";
 
 export default function Index() {
-  const [checked, setChecked] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
+  const { isAuthenticated, isLoading } = useUser();
 
   useEffect(() => {
-    void (async () => {
-      setLoggedIn(await isLoggedIn());
-      setChecked(true);
-    })();
-  }, []);
+    if (!isLoading && isAuthenticated) {
+      router.replace("/(tabs)/home");
+    }
+  }, [isLoading, isAuthenticated]);
 
   const handleLogin = useCallback(async () => {
     const clientId = process.env.EXPO_PUBLIC_GITHUB_CLIENT_ID;
@@ -59,62 +30,24 @@ export default function Index() {
     await WebBrowser.openBrowserAsync(authorizeUrl);
   }, []);
 
-  if (!checked) {
+  if (isLoading) {
     return (
-      <View style={styles.centered}>
+      <View className="flex-1 items-center justify-center p-4">
         <ActivityIndicator />
-        <ThemedText>Checking your session…</ThemedText>
+        <Text className="mt-2 text-base">Checking your session…</Text>
       </View>
     );
   }
 
-  if (loggedIn) {
-    return (
-      <ThemedView style={styles.container}>
-        <ThemedText type="title">Welcome</ThemedText>
-        <ThemedText>You’re signed in with GitHub.</ThemedText>
-        <View style={{ height: 12 }} />
-        <PrimaryButton
-          title="Open Account"
-          onPress={() => router.replace("/(tabs)/account")}
-        />
-      </ThemedView>
-    );
-  }
-
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type="title">Sign in</ThemedText>
-      <ThemedText>Use GitHub to continue.</ThemedText>
-      <View style={{ height: 12 }} />
-      <PrimaryButton title="Login with GitHub" onPress={handleLogin} />
-    </ThemedView>
+    <View className="flex-1 justify-center gap-3 p-4">
+      <Text className="text-2xl font-bold">Sign in</Text>
+      <Text className="text-base">Use GitHub to continue.</Text>
+      <Button
+        title="Login with GitHub"
+        onPress={handleLogin}
+        className="mt-2"
+      />
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    justifyContent: "center",
-    gap: 12,
-  },
-  centered: {
-    flex: 1,
-    gap: 12,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 16,
-  },
-  button: {
-    backgroundColor: Colors.light.tint,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 10,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-  },
-});
