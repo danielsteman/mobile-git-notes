@@ -1,3 +1,15 @@
+# [1.1.0](https://github.com/danielsteman/mobile-git-notes/compare/v1.0.2...v1.1.0) (2025-11-03)
+
+
+### Bug Fixes
+
+* make auth web compatible ([4d775e7](https://github.com/danielsteman/mobile-git-notes/commit/4d775e73a3d5971a17d7d2acffdb1d3fb7f08308))
+
+
+### Features
+
+* add repos overview ([4377548](https://github.com/danielsteman/mobile-git-notes/commit/43775482566070f30f2d20daf36986abf5f6ab5b))
+
 ## [1.0.2](https://github.com/danielsteman/mobile-git-notes/compare/v1.0.1...v1.0.2) (2025-11-02)
 
 
