@@ -1,0 +1,45 @@
+version: "0.5"
+
+processes:
+  db:
+    command: docker compose up db
+    readiness_probe:
+      exec:
+        command: sh -lc 'docker exec mgn-postgres pg_isready -U mgn'
+      initial_delay_seconds: 3
+      period_seconds: 3
+      timeout_seconds: 3
+      success_threshold: 1
+      failure_threshold: 40
+
+  api:
+    command: sh -lc 'cd api \
+      && poetry env use $(command -v python) >/dev/null 2>&1 || true \
+      && poetry install --no-interaction --sync \
+      && poetry run uvicorn app.main:app --reload --port 8000'
+    availability:
+      restart: always
+    depends_on:
+      db:
+        condition: process_healthy
+
+  mobile:
+    command: sh -lc 'cd mobile-git-notes && npm install && npm run start'
+    availability:
+      restart: always
+
+  ngrok_api:
+    command: sh -lc 'ngrok http http://localhost:8000'
+    availability:
+      restart: on_failure
+    depends_on:
+      api:
+        condition: process_started
+
+  ngrok_metro:
+    command: sh -lc 'ngrok http http://localhost:8081'
+    availability:
+      restart: on_failure
+    depends_on:
+      mobile:
+        condition: process_started
