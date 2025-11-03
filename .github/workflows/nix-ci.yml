@@ -1,0 +1,31 @@
+name: Nix CI (with Cachix)
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v27
+        with:
+          extra_nix_config: |
+            accept-flake-config = true
+
+      - name: Use Cachix
+        uses: cachix/cachix-action@v14
+        with:
+          name: mobile-git-notes
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+
+      - name: Build dev shells (prime/populate cache)
+        run: |
+          nix build -L .#devShells.x86_64-linux.backend .#devShells.x86_64-linux.frontend .#devShells.x86_64-linux.full
