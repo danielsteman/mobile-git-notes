@@ -1,3 +1,19 @@
+# [1.2.0](https://github.com/danielsteman/mobile-git-notes/compare/v1.1.0...v1.2.0) (2025-11-03)
+
+
+### Bug Fixes
+
+* kitty scripts ([30e7160](https://github.com/danielsteman/mobile-git-notes/commit/30e71605eb9c18b2645172f8221fc11a8a719ac9))
+* mobile ([1214d1b](https://github.com/danielsteman/mobile-git-notes/commit/1214d1b56dd917cfd6a3313be1a3acb3bd44fafb))
+* process compose ([2fae8f1](https://github.com/danielsteman/mobile-git-notes/commit/2fae8f1c38b4f66d4fd5dcccf24fa9f064144621))
+
+
+### Features
+
+* add some binary cache test scripts ([641100f](https://github.com/danielsteman/mobile-git-notes/commit/641100f65ff75d81bbd3771c6a769df6424d02d3))
+* improve devshell setup ([a215b1b](https://github.com/danielsteman/mobile-git-notes/commit/a215b1b23c6b807dd9aa5c528428a6bf6554b0d9))
+* use binary cache in CI ([d41c340](https://github.com/danielsteman/mobile-git-notes/commit/d41c3409ff30ab7ac7c5546de8a18776a54e19a7))
+
 # [1.1.0](https://github.com/danielsteman/mobile-git-notes/compare/v1.0.2...v1.1.0) (2025-11-03)
 
 
