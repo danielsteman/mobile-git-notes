@@ -37,6 +37,8 @@
               pkgs.libffi
               pkgs.postgresql
               pkgs.ngrok
+              pkgs.pre-commit
+              pkgs.python312Packages.pytest
             ];
             shellHook = ''
               echo "Backend shell: Python $(python --version), Poetry $(poetry --version)"
@@ -70,6 +72,8 @@
               pkgs.openssl
               pkgs.libffi
               pkgs.postgresql
+              pkgs.pre-commit
+              pkgs.python312Packages.pytest
 
               # frontend
               pkgs.nodejs_22
