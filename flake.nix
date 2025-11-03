@@ -2,6 +2,8 @@
   description = "Dev shells for backend (FastAPI) and frontend (Expo)";
 
   nixConfig = {
+    # Binary cache configuration - ensures all nix develop commands use these caches
+    # extra-substituters adds to the default substituters (which includes cache.nixos.org)
     extra-substituters = [
       "https://danielsteman.cachix.org"
     ];
