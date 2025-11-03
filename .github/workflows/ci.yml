@@ -68,7 +68,13 @@ jobs:
 
       - name: Run pytest in Nix dev shell (api/)
         run: |
-          nix develop .#backend --command bash -lc "cd api && export POETRY_VIRTUALENVS_IN_PROJECT=true && poetry install --no-interaction --no-ansi && poetry run pytest"
+          nix develop .#backend --command bash -lc "\
+            cd api && \
+            export POETRY_VIRTUALENVS_IN_PROJECT=true && \
+            poetry --version && \
+            poetry env use python && \
+            poetry install --no-interaction --no-ansi --with dev && \
+            poetry run pytest"
 
   frontend-lint:
     name: Frontend ESLint
