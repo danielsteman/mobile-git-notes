@@ -23,7 +23,7 @@ jobs:
       - name: Use Cachix
         uses: cachix/cachix-action@v14
         with:
-          name: mobile-git-notes
+          name: danielsteman
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
 
       - name: Build dev shells (prime/populate cache)
