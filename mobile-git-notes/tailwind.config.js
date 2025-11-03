@@ -1,8 +1,9 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+// CommonJS Tailwind config for tools that expect .js
 const nativewind = require("nativewind/preset");
-import animate from "tailwindcss-animate";
+const animate = require("tailwindcss-animate");
 
-export default {
+/** @type {import('tailwindcss').Config} */
+module.exports = {
   darkMode: "class",
   content: ["./app/**/*.{tsx,ts}", "./components/**/*.{tsx,ts}"],
   presets: [nativewind],
@@ -51,4 +52,4 @@ export default {
     },
   },
   plugins: [animate],
-} as const;
+};

@@ -29,33 +29,38 @@ export default function ProfileScreen() {
   }, [logout]);
 
   return (
-    <View className="flex-1 justify-center gap-4 p-4">
-      <Text className="text-2xl font-bold">Profile</Text>
-      <Text className="text-base">
-        Status:{" "}
-        <Text className="font-semibold">
-          {isAuthenticated ? "Logged in" : "Logged out"}
+    <View className="flex-1 justify-center p-4">
+      <View className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
+        <Text className="text-2xl font-bold">Profile</Text>
+        <Text className="mt-1 text-base text-neutral-600 dark:text-neutral-400">
+          Status:{" "}
+          <Text className="font-semibold">
+            {isAuthenticated ? "Logged in" : "Logged out"}
+          </Text>
         </Text>
-      </Text>
-      {isAuthenticated && user && (
-        <View className="mt-2 flex-row items-center gap-3">
-          {user.avatar_url ? (
-            <Image
-              source={{ uri: user.avatar_url }}
-              style={{ width: 48, height: 48, borderRadius: 24 }}
-            />
-          ) : null}
-          <Text className="text-lg font-medium">{user.login}</Text>
+
+        {isAuthenticated && user && (
+          <View className="mt-4 flex-row items-center gap-3">
+            {user.avatar_url ? (
+              <Image
+                source={{ uri: user.avatar_url }}
+                style={{ width: 56, height: 56, borderRadius: 28 }}
+              />
+            ) : null}
+            <View>
+              <Text className="text-lg font-medium">{user.login}</Text>
+            </View>
+          </View>
+        )}
+
+        <View className="mt-6 flex-row gap-3">
+          {isAuthenticated ? (
+            <Button title="Logout" onPress={handleLogout} />
+          ) : (
+            <Button title="Login with GitHub" onPress={handleLogin} />
+          )}
         </View>
-      )}
-
-      <View className="h-3" />
-
-      {isAuthenticated ? (
-        <Button title="Logout" onPress={handleLogout} />
-      ) : (
-        <Button title="Login with GitHub" onPress={handleLogin} />
-      )}
+      </View>
     </View>
   );
 }

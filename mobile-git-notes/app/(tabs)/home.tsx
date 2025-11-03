@@ -52,28 +52,38 @@ export default function HomeScreen() {
 
   if (!isAuthenticated) {
     return (
-      <View className="flex-1 items-center justify-center p-4">
-        <Text className="text-base">
-          Please sign in to view your repositories.
-        </Text>
+      <View className="flex-1 justify-center p-4">
+        <View className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
+          <Text className="text-lg font-semibold">Welcome</Text>
+          <Text className="mt-1 text-base text-neutral-600 dark:text-neutral-400">
+            Please sign in to view your repositories.
+          </Text>
+          <Button title="Retry" onPress={load} className="mt-4" />
+        </View>
       </View>
     );
   }
 
   if (loading) {
     return (
-      <View className="flex-1 items-center justify-center p-4">
-        <ActivityIndicator />
-        <Text className="mt-2 text-base">Loading repositories…</Text>
+      <View className="flex-1 justify-center p-4">
+        <View className="items-center rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
+          <ActivityIndicator />
+          <Text className="mt-2 text-base">Loading repositories…</Text>
+        </View>
       </View>
     );
   }
 
   if (error) {
     return (
-      <View className="flex-1 items-center justify-center p-4">
-        <Text className="text-base text-red-600">{error}</Text>
-        <Button title="Retry" onPress={load} className="mt-4" />
+      <View className="flex-1 justify-center p-4">
+        <View className="items-center rounded-2xl border border-red-300 bg-white p-6 shadow-sm dark:border-red-900/50 dark:bg-neutral-900">
+          <Text className="text-base text-red-600 dark:text-red-400">
+            {error}
+          </Text>
+          <Button title="Retry" onPress={load} className="mt-4" />
+        </View>
       </View>
     );
   }

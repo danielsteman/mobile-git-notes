@@ -40,14 +40,18 @@ export default function Index() {
   }
 
   return (
-    <View className="flex-1 justify-center gap-3 p-4">
-      <Text className="text-2xl font-bold">Sign in</Text>
-      <Text className="text-base">Use GitHub to continue.</Text>
-      <Button
-        title="Login with GitHub"
-        onPress={handleLogin}
-        className="mt-2"
-      />
+    <View className="flex-1 justify-center p-4">
+      <View className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-900">
+        <Text className="text-2xl font-bold">Sign in</Text>
+        <Text className="mt-1 text-base text-neutral-600 dark:text-neutral-400">
+          Use GitHub to continue.
+        </Text>
+        <Button
+          title="Login with GitHub"
+          onPress={handleLogin}
+          className="mt-4"
+        />
+      </View>
     </View>
   );
 }
