@@ -1,72 +1,145 @@
 {
   description = "Dev shells for backend (FastAPI) and frontend (Expo)";
 
+  nixConfig = {
+    # Binary cache configuration - ensures all nix develop commands use these caches
+    # extra-substituters adds to the default substituters (which includes cache.nixos.org)
+    extra-substituters = [
+      "https://danielsteman.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "danielsteman.cachix.org-1:GF11KE/ARICBTtWKncP9wNEKobb0kvFHqlpu5rqYNrU="
+    ];
+  };
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     flake-utils.url = "github:numtide/flake-utils";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, flake-utils }:
+  outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
           inherit system;
           config = { allowUnfree = true; };
         };
-        unstablePkgs = import nixpkgs-unstable {
-          inherit system;
-          config = { allowUnfree = true; };
-        };
       in
       {
-        devShells = {
+        devShells = rec {
           backend = pkgs.mkShell {
             name = "mobile-git-notes-backend";
             packages = [
               pkgs.python312
-              unstablePkgs.poetry
+              pkgs.poetry
               pkgs.pkg-config
               pkgs.openssl
               pkgs.libffi
               pkgs.postgresql
-              unstablePkgs.ngrok
+              pkgs.ngrok
+              pkgs.pre-commit
+              pkgs.python312Packages.pytest
             ];
             shellHook = ''
-              export POETRY_VIRTUALENVS_IN_PROJECT=true
               echo "Backend shell: Python $(python --version), Poetry $(poetry --version)"
-
-              # Always work from the api directory if present at repo root
-              if [ -d "api" ] && [ -f "api/pyproject.toml" ]; then
-                cd api || true
-              fi
-
-              # Ensure Poetry uses the Nix Python, install deps (incl. dev extra) every time, then activate venv
-              if [ -f "pyproject.toml" ]; then
-                poetry env use "$(command -v python)" >/dev/null 2>&1 || true
-                poetry install --no-interaction --extras dev --sync || poetry install --no-interaction --sync
-                VENV_PATH="$(poetry env info --path 2>/dev/null || echo .venv)"
-                if [ -d "$VENV_PATH" ]; then
-                  . "$VENV_PATH/bin/activate" 2>/dev/null || true
-                fi
-                echo "Poetry deps ensured and venv activated from: $VENV_PATH"
-              fi
-
-              echo "Ngrok available: run 'ngrok http http://localhost:8000'"
+              echo "Tip: cd api && poetry install && poetry run uvicorn app.main:app --reload --port 8000"
+              echo "Ngrok: ngrok http http://localhost:8000"
             '';
           };
 
-          frontend = pkgs.mkShell {
-            name = "mobile-git-notes-frontend";
+          mobile = pkgs.mkShell {
+            name = "mobile-git-notes-mobile";
             packages = [
               pkgs.nodejs_22
               pkgs.watchman
-              unstablePkgs.ngrok
+              pkgs.ngrok
             ];
             shellHook = ''
-              echo "Frontend shell: Node $(node -v)"
+              echo "Mobile shell: Node $(node -v)"
               echo "Tip: cd mobile-git-notes && npm install && npm run start"
               echo "Ngrok available: run 'ngrok http http://localhost:8081' for Metro"
+            '';
+          };
+
+          # One shell with everything for convenience
+          full = pkgs.mkShell {
+            name = "mobile-git-notes-full";
+            packages = [
+              # backend
+              pkgs.python312
+              pkgs.poetry
+              pkgs.pkg-config
+              pkgs.openssl
+              pkgs.libffi
+              pkgs.postgresql
+              pkgs.pre-commit
+              pkgs.python312Packages.pytest
+
+              # frontend
+              pkgs.nodejs_22
+              pkgs.watchman
+
+              # tooling
+              pkgs.ngrok
+              pkgs.process-compose
+              pkgs.docker
+              pkgs.docker-compose
+            ];
+            shellHook = ''
+              export POETRY_VIRTUALENVS_IN_PROJECT=true
+              echo "Full shell ready. Python $(python --version), Node $(node -v)"
+              echo "- DB via Docker: 'docker compose up db'"
+              echo "- API: 'cd api && poetry run uvicorn app.main:app --reload --port 8000'"
+              echo "- Mobile: 'cd mobile-git-notes && npm install && npm run start'"
+              echo "- Orchestrate: 'process-compose --config ./process-compose.yaml up'"
+            '';
+          };
+
+          # Make `nix develop` default to the full shell
+          default = full;
+        };
+
+        # Handy runnable commands: nix run .#<name>
+        apps = {
+          dev = {
+            type = "app";
+            program = pkgs.writeShellScript "dev" ''
+              exec nix develop .#full -c process-compose --config ./process-compose.yaml up
+            '';
+          };
+
+          api = {
+            type = "app";
+            program = pkgs.writeShellScript "api" ''
+              exec nix develop .#backend -c sh -lc 'cd api && poetry run uvicorn app.main:app --reload --port 8000'
+            '';
+          };
+
+          mobile = {
+            type = "app";
+            program = pkgs.writeShellScript "mobile" ''
+              exec nix develop .#mobile -c sh -lc 'cd mobile-git-notes && npm install && npm run start'
+            '';
+          };
+
+          ngrokApi = {
+            type = "app";
+            program = pkgs.writeShellScript "ngrok-api" ''
+              exec nix develop .#backend -c sh -lc 'ngrok http http://localhost:8000'
+            '';
+          };
+
+          ngrokMetro = {
+            type = "app";
+            program = pkgs.writeShellScript "ngrok-metro" ''
+              exec nix develop .#mobile -c sh -lc 'ngrok http http://localhost:8081'
+            '';
+          };
+
+          dbUp = {
+            type = "app";
+            program = pkgs.writeShellScript "db-up" ''
+              exec ${pkgs.docker}/bin/docker compose up db
             '';
           };
         };

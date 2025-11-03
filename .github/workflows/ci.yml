@@ -47,9 +47,32 @@ jobs:
         run: |
           nix develop .#backend --command bash -lc "pre-commit run --all-files"
 
+  backend-test:
+    name: Backend tests
+    runs-on: ubuntu-latest
+    # Only run if the PR's source branch is not main
+    needs: changes
+    if: github.event.pull_request.head.ref != 'main' && needs.changes.outputs.backend == 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v27
+        with:
+          nix_path: nixpkgs=channel:nixos-unstable
+
       - name: Run pytest in Nix dev shell (api/)
         run: |
-          nix develop .#backend --command bash -lc "pytest"
+          nix develop .#backend --command bash -lc "\
+            cd api && \
+            export POETRY_VIRTUALENVS_IN_PROJECT=true && \
+            poetry --version && \
+            (poetry env remove --all || true) && \
+            poetry env use \"$(command -v python)\" && \
+            poetry run python -V && \
+            poetry install --no-interaction --no-ansi --with dev && \
+            poetry run pytest"
 
   frontend-lint:
     name: Frontend ESLint
@@ -68,4 +91,4 @@ jobs:
 
       - name: npm ci + lint in Nix dev shell (mobile-git-notes/)
         run: |
-          nix develop .#frontend --command bash -lc "cd mobile-git-notes && npm ci && npm run lint"
+          nix develop .#mobile --command bash -lc "cd mobile-git-notes && npm ci && npm run lint"
