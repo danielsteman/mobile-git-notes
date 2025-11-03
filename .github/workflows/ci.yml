@@ -68,4 +68,4 @@ jobs:
 
       - name: npm ci + lint in Nix dev shell (mobile-git-notes/)
         run: |
-          nix develop .#frontend --command bash -lc "cd mobile-git-notes && npm ci && npm run lint"
+          nix develop .#mobile --command bash -lc "cd mobile-git-notes && npm ci && npm run lint"
