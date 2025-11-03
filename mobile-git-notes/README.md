@@ -1,39 +1,4 @@
-# Welcome to your Expo app 👋
-
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
-
-## Get started
-
-1. Install dependencies
-
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+# Mobile Git Notes – Frontend (Expo)
 
 ## Using Nix dev shell (frontend)
 
@@ -42,31 +7,57 @@ Keep installs explicit; the shell only provides Node/npm.
 - Install deps explicitly:
 
 ```bash
-nix develop .#frontend --command bash -lc "cd mobile-git-notes && npm ci"
+nix develop .#mobile --command bash -lc "cd mobile-git-notes && npm ci"
 ```
 
 - Lint:
 
 ```bash
-nix develop .#frontend --command bash -lc "cd mobile-git-notes && npm run lint"
+nix develop .#mobile --command bash -lc "cd mobile-git-notes && npm run lint"
 ```
 
 - Start the app:
 
 ```bash
-nix develop .#frontend --command bash -lc "cd mobile-git-notes && npm run start"
+nix develop .#mobile --command bash -lc "cd mobile-git-notes && npm run start"
 ```
 
-## Learn more
+## iOS Simulator setup (macOS)
 
-To learn more about developing your project with Expo, look at the following resources:
+If pressing `i` in Expo shows “No iOS devices available in Simulator.app” or `xcrun simctl list runtimes` is empty, install iOS Simulator runtimes via Xcode.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+GUI (recommended):
 
-## Join the community
+- Open Xcode → Settings → Platforms → install “iOS Simulator” (iOS 18 or 17)
+- Open Xcode once and accept the license if prompted
 
-Join our community of developers creating universal apps.
+CLI (Xcode 15/16):
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```bash
+# Ensure full Xcode is selected (not Command Line Tools)
+sudo xcode-select -switch /Applications/Xcode.app
+
+# Initialize Xcode on first use
+sudo xcodebuild -runFirstLaunch
+
+# Download the iOS platform (installs Simulator runtimes)
+sudo xcodebuild -downloadPlatform iOS
+```
+
+Verify and create a simulator:
+
+```bash
+# List installed runtimes and device types
+xcrun simctl list runtimes
+xcrun simctl list devicetypes | grep -i iphone
+
+# Create and boot a device using the exact IDs printed above (example IDs shown)
+xcrun simctl create "My iPhone" \
+  com.apple.CoreSimulator.SimDeviceType.iPhone-15 \
+  com.apple.CoreSimulator.SimRuntime.iOS-18-1
+
+open -a Simulator
+xcrun simctl boot "My iPhone" || true
+```
+
+Then start Expo and press `i` to open the iOS Simulator.
