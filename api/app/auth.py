@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 
 from .db import get_db
 from .models import OAuthToken, User
-from .security import encrypt_value, issue_app_jwt
+from .security import encrypt_value, issue_app_jwt, get_current_user
 from .settings import settings
 
 
@@ -191,3 +191,8 @@ async def oauth_callback(code: str, db: Session = Depends(get_db)):
 </html>
 """
     return Response(content=html, media_type="text/html")
+
+
+@router.get("/me")
+async def get_me(user: User = Depends(get_current_user)):
+    return {"id": user.id, "login": user.login, "avatar_url": user.avatar_url}

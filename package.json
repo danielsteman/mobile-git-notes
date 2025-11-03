@@ -4,10 +4,12 @@
     "description": "Repo-wide tooling for semantic-release and commitlint",
     "license": "MIT",
     "scripts": {
+        "prepare": "husky install",
         "release": "semantic-release",
         "release:dry-run": "semantic-release --dry-run"
     },
     "devDependencies": {
+        "husky": "^9.1.6",
         "@commitlint/cli": "^19.5.0",
         "@commitlint/config-conventional": "^19.5.0",
         "@semantic-release/changelog": "^6.0.3",

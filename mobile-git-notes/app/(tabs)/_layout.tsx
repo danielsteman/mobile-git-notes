@@ -18,11 +18,29 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="account"
+        name="home"
         options={{
-          title: "Account",
+          title: "Home",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="house" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "Profile",
           tabBarIcon: ({ color }) => (
             <IconSymbol size={28} name="person.crop.circle" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: "Settings",
+          tabBarIcon: ({ color }) => (
+            <IconSymbol size={28} name="gear" color={color} />
           ),
         }}
       />
