@@ -28,4 +28,4 @@ jobs:
 
       - name: Build dev shells (prime/populate cache)
         run: |
-          nix build -L .#devShells.x86_64-linux.backend .#devShells.x86_64-linux.frontend .#devShells.x86_64-linux.full
+          nix build -L .#devShells.x86_64-linux.backend .#devShells.x86_64-linux.mobile .#devShells.x86_64-linux.full
