@@ -1,7 +1,5 @@
 # Mobile git notes
 
-# Mobile git notes
-
 <p align="center">
   <a href="https://github.com/danielsteman/mobile-git-notes" target="_blank">
     <img alt="Version" src="https://img.shields.io/github/package-json/v/danielsteman/mobile-git-notes?color=%236b5b95&label=version&logo=semver&logoColor=white" />
