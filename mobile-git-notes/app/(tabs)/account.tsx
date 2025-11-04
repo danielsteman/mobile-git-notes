@@ -1,4 +1,5 @@
 import * as WebBrowser from "expo-web-browser";
+import * as Linking from "expo-linking";
 import { useCallback, useEffect, useState } from "react";
 import { Alert, Pressable, StyleSheet, View } from "react-native";
 
@@ -44,8 +45,11 @@ export default function AccountScreen() {
       );
       return;
     }
+    const returnTo = Linking.createURL("/oauth");
     const authorizeUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=repo&redirect_uri=${encodeURIComponent(
-      `${apiBase}/auth/github/callback`
+      `${apiBase}/auth/github/callback?return_to=${encodeURIComponent(
+        returnTo
+      )}`
     )}`;
     await WebBrowser.openBrowserAsync(authorizeUrl);
   }, []);

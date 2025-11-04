@@ -131,7 +131,11 @@ async def exchange_code(
 
 
 @router.get("/callback")
-async def oauth_callback(code: str, db: Session = Depends(get_db)):
+async def oauth_callback(
+    code: str,
+    return_to: Optional[str] = None,
+    db: Session = Depends(get_db),
+):
     # Web callback helper: exchange the code and return a simple message with the app JWT
     payload = {
         "client_id": settings.github_client_id,
@@ -177,6 +181,15 @@ async def oauth_callback(code: str, db: Session = Depends(get_db)):
     db.commit()
 
     app_jwt = issue_app_jwt(user.id)
+
+    # Prefer client-provided deep link (works in Expo Go using exp://),
+    # otherwise fall back to the native scheme.
+    if return_to:
+        sep = "&" if "?" in return_to else "?"
+        deep_link = f"{return_to}{sep}token={app_jwt}"
+    else:
+        deep_link = f"mobilegitnotes://oauth?token={app_jwt}"
+
     html = f"""
 <!doctype html>
 <html>
@@ -185,7 +198,7 @@ async def oauth_callback(code: str, db: Session = Depends(get_db)):
     <p>Login successful. You can close this window.</p>
     <script>
       // Attempt to deep link back to the app if opened on device
-      try {{ window.location = 'mobilegitnotes://oauth?token={app_jwt}'; }} catch (e) {{}}
+      try {{ window.location = '{deep_link}'; }} catch (e) {{}}
     </script>
   </body>
 </html>
