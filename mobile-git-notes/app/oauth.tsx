@@ -3,12 +3,14 @@ import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 
 import { setToken } from "@/lib/auth";
+import { useUser } from "@/lib/user-context";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
 
 export default function OAuthCapture() {
   const { token } = useLocalSearchParams<{ token?: string }>();
   const [error, setError] = useState<string | null>(null);
+  const { refreshUser } = useUser();
 
   useEffect(() => {
     async function persist() {
@@ -18,13 +20,14 @@ export default function OAuthCapture() {
           return;
         }
         await setToken(token);
+        await refreshUser();
         router.replace("/(tabs)/home");
       } catch (e: any) {
         setError(e?.message ?? "Failed to store token");
       }
     }
     void persist();
-  }, [token]);
+  }, [token, refreshUser]);
 
   if (error) {
     return (

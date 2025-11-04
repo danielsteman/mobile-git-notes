@@ -37,6 +37,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         return;
       }
       const me = await api.get<AppUser>("/auth/github/me");
+      console.log("Signed in user:", me);
       setUser(me);
     } catch {
       setUser(null);
