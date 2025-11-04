@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/danielsteman/mobile-git-notes/compare/v1.2.0...v1.3.0) (2025-11-04)
+
+
+### Features
+
+* login to gh successfully and list repos ([8e61d5a](https://github.com/danielsteman/mobile-git-notes/commit/8e61d5a3776145932eb2c6729dcc0e4fe3a5bdee))
+
 # [1.2.0](https://github.com/danielsteman/mobile-git-notes/compare/v1.1.0...v1.2.0) (2025-11-03)
 
 
