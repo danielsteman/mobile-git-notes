@@ -61,3 +61,7 @@ xcrun simctl boot "My iPhone" || true
 ```
 
 Then start Expo and press `i` to open the iOS Simulator.
+
+## UI Kit
+
+The app leverages the [Tamagui](https://tamagui.dev/) UI kit.
