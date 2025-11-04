@@ -1,56 +1,53 @@
+/* eslint-disable import/no-unresolved */
 import React from "react";
-import {
-  Pressable,
-  PressableProps,
-  Text,
-  ActivityIndicator,
-  ViewStyle,
-} from "react-native";
+import { ActivityIndicator } from "react-native";
+import { Button as TButton, styled } from "tamagui";
 
-type ButtonProps = PressableProps & {
+type Variant = "primary" | "secondary" | "destructive";
+
+type ButtonProps = React.ComponentProps<typeof TButton> & {
   title: string;
   loading?: boolean;
-  variant?: "primary" | "secondary" | "destructive";
-  className?: string;
-  style?: ViewStyle | ViewStyle[];
+  variant?: Variant;
 };
+
+const BaseButton = styled(TButton, {
+  borderRadius: 12,
+  px: "$4",
+  py: "$3",
+  variants: {
+    variant: {
+      primary: { bg: "$blue10", color: "$color1" },
+      secondary: { bg: "$color2", color: "$color11" },
+      destructive: { bg: "$red10", color: "$color1" },
+    },
+  },
+  defaultVariants: {
+    variant: "primary",
+  },
+});
 
 export function Button({
   title,
   loading,
-  variant = "primary",
   disabled,
-  className,
-  style,
+  variant = "primary",
   ...props
 }: ButtonProps) {
-  const base = "items-center rounded-xl px-4 py-3";
-  const variants: Record<typeof variant, string> = {
-    primary: "bg-blue-600",
-    secondary: "bg-neutral-200 dark:bg-neutral-800",
-    destructive: "bg-red-600",
-  } as const;
-  const opacity = disabled || loading ? " opacity-50" : "";
-
   return (
-    <Pressable
+    <BaseButton
       accessibilityRole="button"
-      className={`${base} ${variants[variant]}${opacity} ${className ?? ""}`}
+      variant={variant}
       disabled={disabled || loading}
-      style={style}
       {...props}
     >
       {loading ? (
-        <ActivityIndicator color="#fff" />
+        <ActivityIndicator
+          color={variant === "secondary" ? "#4c4f69" : "#eff1f5"}
+        />
       ) : (
-        <Text
-          className={
-            variant === "secondary" ? "text-base" : "text-base text-white"
-          }
-        >
-          {title}
-        </Text>
+        title
       )}
-    </Pressable>
+    </BaseButton>
   );
 }

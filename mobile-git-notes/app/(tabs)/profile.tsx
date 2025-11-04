@@ -1,7 +1,9 @@
 import * as WebBrowser from "expo-web-browser";
 import * as Linking from "expo-linking";
 import { useCallback } from "react";
-import { Alert, Image, View, Text } from "react-native";
+import { Alert, Image } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { YStack, XStack, Text } from "tamagui";
 import { useUser } from "@/lib/user-context";
 import { Button } from "@/components/ui/button";
 
@@ -33,33 +35,33 @@ export default function ProfileScreen() {
   }, [logout]);
 
   return (
-    <View className="flex-1 justify-center gap-4 p-4">
-      <Text className="text-2xl font-bold">Profile</Text>
-      <Text className="text-base">
-        Status:{" "}
-        <Text className="font-semibold">
-          {isAuthenticated ? "Logged in" : "Logged out"}
+    <SafeAreaView style={{ flex: 1 }}>
+      <YStack f={1} jc="center" gap="$4" p="$4" bg="$color1">
+        <Text fontWeight="700">Profile</Text>
+        <Text>
+          Status:{" "}
+          <Text fontWeight="600">
+            {isAuthenticated ? "Logged in" : "Logged out"}
+          </Text>
         </Text>
-      </Text>
-      {isAuthenticated && user && (
-        <View className="mt-2 flex-row items-center gap-3">
-          {user.avatar_url ? (
-            <Image
-              source={{ uri: user.avatar_url }}
-              style={{ width: 48, height: 48, borderRadius: 24 }}
-            />
-          ) : null}
-          <Text className="text-lg font-medium">{user.login}</Text>
-        </View>
-      )}
+        {isAuthenticated && user && (
+          <XStack ai="center" gap="$3">
+            {user.avatar_url ? (
+              <Image
+                source={{ uri: user.avatar_url }}
+                style={{ width: 48, height: 48, borderRadius: 24 }}
+              />
+            ) : null}
+            <Text fontWeight="600">{user.login}</Text>
+          </XStack>
+        )}
 
-      <View className="h-3" />
-
-      {isAuthenticated ? (
-        <Button title="Logout" onPress={handleLogout} />
-      ) : (
-        <Button title="Login with GitHub" onPress={handleLogin} />
-      )}
-    </View>
+        {isAuthenticated ? (
+          <Button title="Logout" onPress={handleLogout} />
+        ) : (
+          <Button title="Login with GitHub" onPress={handleLogin} />
+        )}
+      </YStack>
+    </SafeAreaView>
   );
 }

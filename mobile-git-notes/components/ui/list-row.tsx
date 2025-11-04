@@ -1,5 +1,7 @@
+/* eslint-disable import/no-unresolved */
 import React from "react";
-import { Pressable, View, Text, Image, PressableProps } from "react-native";
+import { Pressable, Image, PressableProps } from "react-native";
+import { XStack, YStack, Text } from "tamagui";
 
 type ListRowProps = PressableProps & {
   title: string;
@@ -14,41 +16,44 @@ export function ListRow({
   subtitle,
   leftAvatarUrl,
   rightText,
-  className,
+  className: _className,
   ...props
 }: ListRowProps) {
   return (
-    <Pressable
-      className={`flex-row items-center justify-between rounded-xl border border-neutral-200 bg-white p-4 dark:border-neutral-800 dark:bg-neutral-900 ${
-        className ?? ""
-      }`}
-      accessibilityRole="button"
-      {...props}
-    >
-      <View className="flex-row items-center gap-3 flex-1 pr-2">
-        {leftAvatarUrl ? (
-          <Image
-            source={{ uri: leftAvatarUrl }}
-            style={{ width: 32, height: 32, borderRadius: 16 }}
-          />
-        ) : null}
-        <View className="flex-1">
-          <Text className="text-base font-semibold" numberOfLines={1}>
-            {title}
-          </Text>
-          {subtitle ? (
-            <Text
-              className="mt-0.5 text-sm text-neutral-600 dark:text-neutral-400"
-              numberOfLines={2}
-            >
-              {subtitle}
-            </Text>
+    <Pressable accessibilityRole="button" {...props}>
+      <XStack
+        ai="center"
+        jc="space-between"
+        bg="$color1"
+        br={12}
+        p="$4"
+        bw={1}
+        boc="$color3"
+      >
+        <XStack ai="center" gap="$3" f={1} pr="$2">
+          {leftAvatarUrl ? (
+            <Image
+              source={{ uri: leftAvatarUrl }}
+              style={{ width: 32, height: 32, borderRadius: 16 }}
+            />
           ) : null}
-        </View>
-      </View>
-      {rightText ? (
-        <Text className="text-xs text-neutral-500">{rightText}</Text>
-      ) : null}
+          <YStack f={1}>
+            <Text numberOfLines={1} fontWeight="700">
+              {title}
+            </Text>
+            {subtitle ? (
+              <Text numberOfLines={2} color="$color11" opacity={0.7}>
+                {subtitle}
+              </Text>
+            ) : null}
+          </YStack>
+        </XStack>
+        {rightText ? (
+          <Text size="$2" color="$color11" opacity={0.6}>
+            {rightText}
+          </Text>
+        ) : null}
+      </XStack>
     </Pressable>
   );
 }
