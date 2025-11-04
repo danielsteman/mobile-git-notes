@@ -1,6 +1,6 @@
-/* eslint-disable import/no-unresolved */
 import { useEffect, useState, useCallback } from "react";
 import { ActivityIndicator, FlatList, RefreshControl } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { YStack, Text } from "tamagui";
 import { api } from "@/lib/api";
 import { useUser } from "@/lib/user-context";
@@ -48,45 +48,55 @@ export default function HomeScreen() {
 
   if (!isAuthenticated) {
     return (
-      <YStack f={1} ai="center" jc="center" p="$4">
-        <Text>Please sign in to view your repositories.</Text>
-      </YStack>
+      <SafeAreaView style={{ flex: 1 }}>
+        <YStack f={1} ai="center" jc="center" p="$4" bg="$color1">
+          <Text>Please sign in to view your repositories.</Text>
+        </YStack>
+      </SafeAreaView>
     );
   }
 
   if (loading) {
     return (
-      <YStack f={1} ai="center" jc="center" p="$4" gap="$2">
-        <ActivityIndicator />
-        <Text>Loading repositories…</Text>
-      </YStack>
+      <SafeAreaView style={{ flex: 1 }}>
+        <YStack f={1} ai="center" jc="center" p="$4" gap="$2" bg="$color1">
+          <ActivityIndicator />
+          <Text>Loading repositories…</Text>
+        </YStack>
+      </SafeAreaView>
     );
   }
 
   if (error) {
     return (
-      <YStack f={1} ai="center" jc="center" p="$4" gap="$4">
-        <Text color="$red10">{error}</Text>
-        <Button title="Retry" onPress={load} />
-      </YStack>
+      <SafeAreaView style={{ flex: 1 }}>
+        <YStack f={1} ai="center" jc="center" p="$4" gap="$4" bg="$color1">
+          <Text color="$red10">{error}</Text>
+          <Button title="Retry" onPress={load} />
+        </YStack>
+      </SafeAreaView>
     );
   }
 
   return (
-    <FlatList
-      data={repos}
-      keyExtractor={(item) => String(item.id)}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-      contentContainerStyle={{ padding: 16, gap: 12 }}
-      renderItem={({ item }) => (
-        <ListRow
-          title={item.full_name}
-          subtitle={item.description ?? undefined}
-          rightText={`★ ${item.stargazers_count ?? 0}`}
+    <SafeAreaView style={{ flex: 1 }}>
+      <YStack f={1} bg="$color1">
+        <FlatList
+          data={repos}
+          keyExtractor={(item) => String(item.id)}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          contentContainerStyle={{ padding: 16, gap: 12 }}
+          renderItem={({ item }) => (
+            <ListRow
+              title={item.full_name}
+              subtitle={item.description ?? undefined}
+              rightText={`★ ${item.stargazers_count ?? 0}`}
+            />
+          )}
         />
-      )}
-    />
+      </YStack>
+    </SafeAreaView>
   );
 }

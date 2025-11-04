@@ -1,30 +1,11 @@
 import * as WebBrowser from "expo-web-browser";
 import * as Linking from "expo-linking";
 import { useCallback, useEffect, useState } from "react";
-import { Alert, Pressable, StyleSheet, View } from "react-native";
-
-import { ThemedText } from "@/components/themed-text";
-import { ThemedView } from "@/components/themed-view";
-import { Colors } from "@/constants/theme";
+import { Alert } from "react-native";
+import { YStack, XStack, Text } from "tamagui";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Button } from "@/components/ui/button";
 import { clearToken, isLoggedIn } from "@/lib/auth";
-
-function PrimaryButton({
-  title,
-  onPress,
-}: {
-  title: string;
-  onPress: () => void;
-}) {
-  return (
-    <Pressable
-      accessibilityRole="button"
-      style={styles.button}
-      onPress={onPress}
-    >
-      <ThemedText style={styles.buttonText}>{title}</ThemedText>
-    </Pressable>
-  );
-}
 
 export default function AccountScreen() {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
@@ -61,40 +42,19 @@ export default function AccountScreen() {
   }, []);
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText type="title">Account</ThemedText>
-      <ThemedText>
-        Status:{" "}
-        <ThemedText type="defaultSemiBold">
-          {loggedIn ? "Logged in" : "Logged out"}
-        </ThemedText>
-      </ThemedText>
-      <View style={{ height: 12 }} />
-      {loggedIn ? (
-        <PrimaryButton title="Logout" onPress={handleLogout} />
-      ) : (
-        <PrimaryButton title="Login with GitHub" onPress={handleLogin} />
-      )}
-    </ThemedView>
+    <SafeAreaView style={{ flex: 1 }}>
+      <YStack f={1} p="$4" jc="center" gap="$4" bg="$color1">
+        <Text fontWeight="700">Account</Text>
+        <XStack ai="center" gap="$2">
+          <Text>Status:</Text>
+          <Text fontWeight="600">{loggedIn ? "Logged in" : "Logged out"}</Text>
+        </XStack>
+        {loggedIn ? (
+          <Button title="Logout" onPress={handleLogout} />
+        ) : (
+          <Button title="Login with GitHub" onPress={handleLogin} />
+        )}
+      </YStack>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    justifyContent: "center",
-    gap: 12,
-  },
-  button: {
-    backgroundColor: Colors.light.tint,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    borderRadius: 10,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-  },
-});

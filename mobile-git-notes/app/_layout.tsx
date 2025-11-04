@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import {
   DarkTheme,
   DefaultTheme,
@@ -14,6 +13,7 @@ import { UserProvider } from "@/lib/user-context";
 import { TamaguiProvider, Theme } from "tamagui";
 import config from "../tamagui.config";
 import { ThemePrefProvider, useThemePref } from "@/lib/theme-preference";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export const unstable_settings = {
   anchor: "(tabs)",
@@ -55,16 +55,18 @@ function AppThemeWrapper({ children }: { children: React.ReactNode }) {
 export default function RootLayout() {
   return (
     <TamaguiProvider config={config}>
-      <ThemePrefProvider>
-        <UserProvider>
-          <AppThemeWrapper>
-            <Stack>
-              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            </Stack>
-            <StatusBar style="auto" />
-          </AppThemeWrapper>
-        </UserProvider>
-      </ThemePrefProvider>
+      <SafeAreaProvider>
+        <ThemePrefProvider>
+          <UserProvider>
+            <AppThemeWrapper>
+              <Stack>
+                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              </Stack>
+              <StatusBar style="auto" />
+            </AppThemeWrapper>
+          </UserProvider>
+        </ThemePrefProvider>
+      </SafeAreaProvider>
     </TamaguiProvider>
   );
 }

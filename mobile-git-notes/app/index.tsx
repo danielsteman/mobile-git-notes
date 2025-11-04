@@ -1,8 +1,8 @@
-/* eslint-disable import/no-unresolved */
 import * as WebBrowser from "expo-web-browser";
 import * as Linking from "expo-linking";
 import { useCallback, useEffect } from "react";
 import { ActivityIndicator, Alert } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { YStack, Text } from "tamagui";
 import { router } from "expo-router";
 import { useUser } from "@/lib/user-context";
@@ -38,18 +38,22 @@ export default function Index() {
 
   if (isLoading) {
     return (
-      <YStack f={1} ai="center" jc="center" p="$4" gap="$2">
-        <ActivityIndicator />
-        <Text>Checking your session…</Text>
-      </YStack>
+      <SafeAreaView style={{ flex: 1 }}>
+        <YStack f={1} ai="center" jc="center" p="$4" gap="$2" bg="$color1">
+          <ActivityIndicator />
+          <Text>Checking your session…</Text>
+        </YStack>
+      </SafeAreaView>
     );
   }
 
   return (
-    <YStack f={1} jc="center" gap="$4" p="$4">
-      <Text fontWeight="700">Sign in</Text>
-      <Text>Use GitHub to continue.</Text>
-      <Button title="Login with GitHub" onPress={handleLogin} />
-    </YStack>
+    <SafeAreaView style={{ flex: 1 }}>
+      <YStack f={1} jc="center" gap="$4" p="$4" bg="$color1">
+        <Text fontWeight="700">Sign in</Text>
+        <Text>Use GitHub to continue.</Text>
+        <Button title="Login with GitHub" onPress={handleLogin} />
+      </YStack>
+    </SafeAreaView>
   );
 }
