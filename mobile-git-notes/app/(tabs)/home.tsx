@@ -1,11 +1,7 @@
+/* eslint-disable import/no-unresolved */
 import { useEffect, useState, useCallback } from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  RefreshControl,
-  View,
-  Text,
-} from "react-native";
+import { ActivityIndicator, FlatList, RefreshControl } from "react-native";
+import { YStack, Text } from "tamagui";
 import { api } from "@/lib/api";
 import { useUser } from "@/lib/user-context";
 import { ListRow } from "@/components/ui/list-row";
@@ -52,29 +48,27 @@ export default function HomeScreen() {
 
   if (!isAuthenticated) {
     return (
-      <View className="flex-1 items-center justify-center p-4">
-        <Text className="text-base">
-          Please sign in to view your repositories.
-        </Text>
-      </View>
+      <YStack f={1} ai="center" jc="center" p="$4">
+        <Text>Please sign in to view your repositories.</Text>
+      </YStack>
     );
   }
 
   if (loading) {
     return (
-      <View className="flex-1 items-center justify-center p-4">
+      <YStack f={1} ai="center" jc="center" p="$4" gap="$2">
         <ActivityIndicator />
-        <Text className="mt-2 text-base">Loading repositories…</Text>
-      </View>
+        <Text>Loading repositories…</Text>
+      </YStack>
     );
   }
 
   if (error) {
     return (
-      <View className="flex-1 items-center justify-center p-4">
-        <Text className="text-base text-red-600">{error}</Text>
-        <Button title="Retry" onPress={load} className="mt-4" />
-      </View>
+      <YStack f={1} ai="center" jc="center" p="$4" gap="$4">
+        <Text color="$red10">{error}</Text>
+        <Button title="Retry" onPress={load} />
+      </YStack>
     );
   }
 
