@@ -1,3 +1,17 @@
+# [1.4.0](https://github.com/danielsteman/mobile-git-notes/compare/v1.3.0...v1.4.0) (2025-11-04)
+
+
+### Bug Fixes
+
+* compiler settings ([fdc9471](https://github.com/danielsteman/mobile-git-notes/commit/fdc947140ada257689413a18f264448f99d69c38))
+* yeet tailwind ([21b6b4a](https://github.com/danielsteman/mobile-git-notes/commit/21b6b4ac1c058d08d9eb61f053ae9678f340bf88))
+
+
+### Features
+
+* implement safe area ([9379f46](https://github.com/danielsteman/mobile-git-notes/commit/9379f46a0cfcffbe31ea34149044e47fedf3fc8c))
+* install and configure tamagui ([44601fb](https://github.com/danielsteman/mobile-git-notes/commit/44601fbccdf7d3a3b9fd4082292ed762cafd362a))
+
 # [1.3.0](https://github.com/danielsteman/mobile-git-notes/compare/v1.2.0...v1.3.0) (2025-11-04)
 
 
