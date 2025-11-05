@@ -19,4 +19,7 @@ Components:
   - A list of repos should be presented, from which the user chooses one repo
   - A message shows that the repo is now connected
   - The user is redirected back to the repos overview
-- If a repository is connected
+- At least one repo is now connected and the user can click this repo
+- Continue in markdown editor
+- Set file name and write content in markdown
+- Encrypt markdown file and commit changes
