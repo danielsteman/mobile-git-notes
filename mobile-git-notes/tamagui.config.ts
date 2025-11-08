@@ -1,7 +1,7 @@
 import { createTamagui, createTheme } from "tamagui";
 
 // Catppuccin palettes (subset mapped to Tamagui tokens)
-const latte = {
+export const latte = {
   color1: "#eff1f5", // base
   color2: "#e6e9ef",
   color3: "#ccd0da",
@@ -18,7 +18,7 @@ const latte = {
   red10: "#d20f39",
 };
 
-const mocha = {
+export const mocha = {
   color1: "#1e1e2e", // base
   color2: "#181825",
   color3: "#11111b",
@@ -29,7 +29,7 @@ const mocha = {
   color8: "#7f849c",
   color9: "#9399b2",
   color10: "#a6adc8",
-  color11: "#cdd6f4", // text
+  color11: "#ffffff", // text
   color12: "#cdd6f4",
   blue10: "#89b4fa",
   red10: "#f38ba8",
@@ -58,11 +58,10 @@ const config = createTamagui({
     latte: createTheme(latte),
     mocha: createTheme(mocha),
   },
-  selectionStyles: (theme: any) => ({
+  selectionStyles: (theme: { blue10: string; color1: string }) => ({
     backgroundColor: theme.blue10,
     color: theme.color1,
   }),
 });
 
-export type AppTamaguiConfig = typeof config;
 export default config;

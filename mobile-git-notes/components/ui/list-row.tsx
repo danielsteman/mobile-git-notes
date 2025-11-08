@@ -1,6 +1,7 @@
 import React from "react";
 import { Pressable, Image, PressableProps } from "react-native";
 import { XStack, YStack, Text } from "tamagui";
+import { useTamaguiThemeColor } from "@/hooks/use-tamagui-theme-color";
 
 type ListRowProps = PressableProps & {
   title: string;
@@ -18,6 +19,8 @@ export function ListRow({
   className: _className,
   ...props
 }: ListRowProps) {
+  const textColor = useTamaguiThemeColor("color11");
+
   return (
     <Pressable accessibilityRole="button" {...props}>
       <XStack
@@ -37,18 +40,18 @@ export function ListRow({
             />
           ) : null}
           <YStack f={1}>
-            <Text numberOfLines={1} fontWeight="700">
+            <Text numberOfLines={1} fontWeight="700" color={textColor}>
               {title}
             </Text>
             {subtitle ? (
-              <Text numberOfLines={2} color="$color11" opacity={0.7}>
+              <Text numberOfLines={2} color={textColor} opacity={0.7}>
                 {subtitle}
               </Text>
             ) : null}
           </YStack>
         </XStack>
         {rightText ? (
-          <Text size="$2" color="$color11" opacity={0.6}>
+          <Text size="$2" color={textColor} opacity={0.6}>
             {rightText}
           </Text>
         ) : null}
