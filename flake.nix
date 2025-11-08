@@ -44,6 +44,12 @@
               echo "Backend shell: Python $(python --version), Poetry $(poetry --version)"
               echo "Tip: cd api && poetry install && poetry run uvicorn app.main:app --reload --port 8000"
               echo "Ngrok: ngrok http http://localhost:8000"
+
+              # Aliases for backend development
+              alias dev-api='cd api && poetry install && poetry run uvicorn app.main:app --reload --port 8000'
+              alias start-api='dev-api'
+              alias ngrok-api='ngrok http http://localhost:8000'
+              alias test-api='cd api && poetry run pytest'
             '';
           };
 
@@ -58,6 +64,11 @@
               echo "Mobile shell: Node $(node -v)"
               echo "Tip: cd mobile-git-notes && npm install && npm run start"
               echo "Ngrok available: run 'ngrok http http://localhost:8081' for Metro"
+
+              # Aliases for mobile development
+              alias dev-mobile='cd mobile-git-notes && npm install && npm run start'
+              alias start-mobile='dev-mobile'
+              alias ngrok-metro='ngrok http http://localhost:8081'
             '';
           };
 
@@ -92,6 +103,16 @@
               echo "- API: 'cd api && poetry run uvicorn app.main:app --reload --port 8000'"
               echo "- Mobile: 'cd mobile-git-notes && npm install && npm run start'"
               echo "- Orchestrate: 'process-compose --config ./process-compose.yaml up'"
+
+              # Aliases for full development environment
+              alias dev-api='cd api && poetry install && poetry run uvicorn app.main:app --reload --port 8000'
+              alias start-api='dev-api'
+              alias dev-mobile='cd mobile-git-notes && npm install && npm run start'
+              alias start-mobile='dev-mobile'
+              alias ngrok-api='ngrok http http://localhost:8000'
+              alias ngrok-metro='ngrok http http://localhost:8081'
+              alias test-api='cd api && poetry run pytest'
+              alias db-up='docker compose up db'
             '';
           };
 
