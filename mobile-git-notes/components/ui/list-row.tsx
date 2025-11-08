@@ -1,4 +1,3 @@
-/* eslint-disable import/no-unresolved */
 import React from "react";
 import { Pressable, Image, PressableProps } from "react-native";
 import { XStack, YStack, Text } from "tamagui";

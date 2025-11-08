@@ -45,8 +45,8 @@ bash scripts/start-dev-kitty.sh
 
 Tabs created:
 
-- ngrok: `ngrok http 8000`
-- backend: `nix develop .#backend --command bash -lc "cd api && fastapi dev app/main.py --port 8000"`
+- ngrok: `ngrok http 8080`
+- backend: `nix develop .#backend --command bash -lc "cd api && fastapi dev app/main.py --port 8080"`
 - frontend: `nix develop .#frontend --command bash -lc "cd mobile-git-notes && npm run start"`
 
 Prereqs:

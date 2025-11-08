@@ -97,7 +97,7 @@ docker exec -it mgn-postgres psql -U mgn -d mgn
 
 ```bash
 cd api
-fastapi dev app/main.py --port 8000
+fastapi dev app/main.py --port 8080
 ```
 
 ### 4) Expose API with ngrok (for GitHub OAuth on device)
@@ -112,7 +112,7 @@ ngrok config add-authtoken <YOUR_NGROK_AUTHTOKEN>
 Start the tunnel:
 
 ```bash
-ngrok http 8000
+ngrok http 8080
 ```
 
 In your GitHub OAuth App, set the Authorization callback URL to:
@@ -191,5 +191,5 @@ nix develop .#backend --command bash -lc "cd api && pytest"
 ### Backend shell (start API)
 
 ```bash
-nix develop .#backend --command bash -lc "cd api && fastapi dev app/main.py --port 8000"
+nix develop .#backend --command bash -lc "cd api && fastapi dev app/main.py --port 8080"
 ```
