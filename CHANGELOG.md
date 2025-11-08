@@ -1,3 +1,13 @@
+## [1.4.1](https://github.com/danielsteman/mobile-git-notes/compare/v1.4.0...v1.4.1) (2025-11-08)
+
+
+### Bug Fixes
+
+* add aliases ([4a54a0d](https://github.com/danielsteman/mobile-git-notes/commit/4a54a0dd417eac6d6cce24ad5eb2b0152f169414))
+* lint ([5e3407c](https://github.com/danielsteman/mobile-git-notes/commit/5e3407c09ec6d3091a5e27b28660c0cb4f8f435b))
+* use 8080 for api ([e7fa6c4](https://github.com/danielsteman/mobile-git-notes/commit/e7fa6c4750afe39e3ebb1a169e7e9819b9688249))
+* use hook to load the theme ([cf17881](https://github.com/danielsteman/mobile-git-notes/commit/cf17881c61028b1623f7012ef64d0a6bb301d830))
+
 # [1.4.0](https://github.com/danielsteman/mobile-git-notes/compare/v1.3.0...v1.4.0) (2025-11-04)
 
 
