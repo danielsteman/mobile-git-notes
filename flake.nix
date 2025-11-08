@@ -42,8 +42,14 @@
             ];
             shellHook = ''
               echo "Backend shell: Python $(python --version), Poetry $(poetry --version)"
-              echo "Tip: cd api && poetry install && poetry run uvicorn app.main:app --reload --port 8000"
-              echo "Ngrok: ngrok http http://localhost:8000"
+              echo "Tip: cd api && poetry install && poetry run uvicorn app.main:app --reload --port 8080"
+              echo "Ngrok: ngrok http http://localhost:8080"
+
+              # Aliases for backend development
+              alias dev-api='cd api && poetry install && poetry run uvicorn app.main:app --reload --port 8080'
+              alias start-api='dev-api'
+              alias ngrok-api='ngrok http http://localhost:8080'
+              alias test-api='cd api && poetry run pytest'
             '';
           };
 
@@ -58,6 +64,11 @@
               echo "Mobile shell: Node $(node -v)"
               echo "Tip: cd mobile-git-notes && npm install && npm run start"
               echo "Ngrok available: run 'ngrok http http://localhost:8081' for Metro"
+
+              # Aliases for mobile development
+              alias dev-mobile='cd mobile-git-notes && npm install && npm run start'
+              alias start-mobile='dev-mobile'
+              alias ngrok-metro='ngrok http http://localhost:8081'
             '';
           };
 
@@ -89,9 +100,19 @@
               export POETRY_VIRTUALENVS_IN_PROJECT=true
               echo "Full shell ready. Python $(python --version), Node $(node -v)"
               echo "- DB via Docker: 'docker compose up db'"
-              echo "- API: 'cd api && poetry run uvicorn app.main:app --reload --port 8000'"
+              echo "- API: 'cd api && poetry run uvicorn app.main:app --reload --port 8080'"
               echo "- Mobile: 'cd mobile-git-notes && npm install && npm run start'"
               echo "- Orchestrate: 'process-compose --config ./process-compose.yaml up'"
+
+              # Aliases for full development environment
+              alias dev-api='cd api && poetry install && poetry run uvicorn app.main:app --reload --port 8080'
+              alias start-api='dev-api'
+              alias dev-mobile='cd mobile-git-notes && npm install && npm run start'
+              alias start-mobile='dev-mobile'
+              alias ngrok-api='ngrok http http://localhost:8080'
+              alias ngrok-metro='ngrok http http://localhost:8081'
+              alias test-api='cd api && poetry run pytest'
+              alias db-up='docker compose up db'
             '';
           };
 
@@ -111,7 +132,7 @@
           api = {
             type = "app";
             program = pkgs.writeShellScript "api" ''
-              exec nix develop .#backend -c sh -lc 'cd api && poetry run uvicorn app.main:app --reload --port 8000'
+              exec nix develop .#backend -c sh -lc 'cd api && poetry run uvicorn app.main:app --reload --port 8080'
             '';
           };
 
@@ -125,7 +146,7 @@
           ngrokApi = {
             type = "app";
             program = pkgs.writeShellScript "ngrok-api" ''
-              exec nix develop .#backend -c sh -lc 'ngrok http http://localhost:8000'
+              exec nix develop .#backend -c sh -lc 'ngrok http http://localhost:8080'
             '';
           };
 

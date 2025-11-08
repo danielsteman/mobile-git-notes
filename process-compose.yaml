@@ -13,7 +13,7 @@ processes:
       failure_threshold: 40
 
   api:
-    command: sh -lc 'cd api && poetry env use "$(command -v python)" >/dev/null 2>&1 || true && poetry install --no-interaction --sync && poetry run uvicorn app.main:app --reload --port 8000'
+    command: sh -lc 'cd api && poetry env use "$(command -v python)" >/dev/null 2>&1 || true && poetry install --no-interaction --sync && poetry run uvicorn app.main:app --reload --port 8080'
     availability:
       restart: always
     depends_on:
@@ -26,7 +26,7 @@ processes:
       restart: always
 
   ngrok_api:
-    command: sh -lc 'ngrok http http://localhost:8000'
+    command: sh -lc 'ngrok http http://localhost:8080'
     availability:
       restart: on_failure
     depends_on:
