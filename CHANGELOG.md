@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/danielsteman/mobile-git-notes/compare/v1.4.1...v1.5.0) (2025-11-09)
+
+
+### Features
+
+* iteration on mobile frontend ([25cdf22](https://github.com/danielsteman/mobile-git-notes/commit/25cdf22ed2e4f95fabc7a0fc1b88039c214d11b3))
+
 ## [1.4.1](https://github.com/danielsteman/mobile-git-notes/compare/v1.4.0...v1.4.1) (2025-11-08)
 
 
