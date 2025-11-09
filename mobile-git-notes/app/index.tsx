@@ -1,5 +1,3 @@
-import * as WebBrowser from "expo-web-browser";
-import * as Linking from "expo-linking";
 import { useCallback, useEffect } from "react";
 import { ActivityIndicator, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -7,34 +5,44 @@ import { YStack, Text } from "tamagui";
 import { router } from "expo-router";
 import { useUser } from "@/lib/user-context";
 import { Button } from "@/components/ui/button";
+import { provider } from "@/lib/providers";
+import { useNotePrefs } from "@/lib/note-preferences";
 
 export default function Index() {
-  const { isAuthenticated, isLoading } = useUser();
+  const { isAuthenticated, isLoading, refreshUser } = useUser();
+  const { prefs, isReady } = useNotePrefs();
 
   useEffect(() => {
-    if (!isLoading && isAuthenticated) {
-      router.replace("/(tabs)/home");
+    if (!isLoading && isAuthenticated && isReady) {
+      if (prefs.repo && prefs.folder) {
+        router.replace("/(tabs)/editor");
+      } else {
+        router.replace("/(tabs)/home");
+      }
     }
-  }, [isLoading, isAuthenticated]);
+  }, [isLoading, isAuthenticated, isReady, prefs.repo, prefs.folder]);
 
   const handleLogin = useCallback(async () => {
-    const clientId = process.env.EXPO_PUBLIC_GITHUB_CLIENT_ID;
-    const apiBase = process.env.EXPO_PUBLIC_API_BASE;
-    if (!clientId || !apiBase) {
-      Alert.alert(
-        "Missing configuration",
-        "Set EXPO_PUBLIC_* env vars and rebuild."
-      );
-      return;
+    try {
+      const clientId = process.env.EXPO_PUBLIC_GITHUB_CLIENT_ID;
+      if (!clientId) {
+        Alert.alert(
+          "Missing configuration",
+          "Set EXPO_PUBLIC_GITHUB_CLIENT_ID and rebuild."
+        );
+        return;
+      }
+      await provider.signIn();
+      await refreshUser();
+      if (prefs.repo && prefs.folder) {
+        router.replace("/(tabs)/editor");
+      } else {
+        router.replace("/(tabs)/home");
+      }
+    } catch (e: any) {
+      Alert.alert("Sign-in failed", e?.message ?? String(e));
     }
-    const returnTo = Linking.createURL("/oauth");
-    const authorizeUrl = `https://github.com/login/oauth/authorize?client_id=${clientId}&scope=repo&redirect_uri=${encodeURIComponent(
-      `${apiBase}/auth/github/callback?return_to=${encodeURIComponent(
-        returnTo
-      )}`
-    )}`;
-    await WebBrowser.openBrowserAsync(authorizeUrl);
-  }, []);
+  }, [refreshUser, prefs.repo, prefs.folder]);
 
   if (isLoading) {
     return (

@@ -1,7 +1,7 @@
-/* eslint-disable import/no-unresolved */
 import React from "react";
 import { ActivityIndicator } from "react-native";
 import { Button as TButton, styled } from "tamagui";
+import { useTamaguiThemeColor } from "@/hooks/use-tamagui-theme-color";
 
 type Variant = "primary" | "secondary" | "destructive";
 
@@ -34,6 +34,8 @@ export function Button({
   variant = "primary",
   ...props
 }: ButtonProps) {
+  const textOnPrimary = useTamaguiThemeColor("color1");
+  const textOnSecondary = useTamaguiThemeColor("color11");
   return (
     <BaseButton
       accessibilityRole="button"
@@ -43,7 +45,7 @@ export function Button({
     >
       {loading ? (
         <ActivityIndicator
-          color={variant === "secondary" ? "#4c4f69" : "#eff1f5"}
+          color={variant === "secondary" ? textOnSecondary : textOnPrimary}
         />
       ) : (
         title

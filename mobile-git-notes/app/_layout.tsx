@@ -14,6 +14,7 @@ import { TamaguiProvider, Theme } from "tamagui";
 import config from "../tamagui.config";
 import { ThemePrefProvider, useThemePref } from "@/lib/theme-preference";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { NotePrefProvider } from "@/lib/note-preferences";
 
 export const unstable_settings = {
   anchor: "(tabs)",
@@ -58,12 +59,21 @@ export default function RootLayout() {
       <SafeAreaProvider>
         <ThemePrefProvider>
           <UserProvider>
-            <AppThemeWrapper>
-              <Stack>
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              </Stack>
-              <StatusBar style="auto" />
-            </AppThemeWrapper>
+            <NotePrefProvider>
+              <AppThemeWrapper>
+                <Stack>
+                  <Stack.Screen
+                    name="(tabs)"
+                    options={{ headerShown: false }}
+                  />
+                  <Stack.Screen
+                    name="folder-setup"
+                    options={{ title: "Set Notes Folder" }}
+                  />
+                </Stack>
+                <StatusBar style="auto" />
+              </AppThemeWrapper>
+            </NotePrefProvider>
           </UserProvider>
         </ThemePrefProvider>
       </SafeAreaProvider>

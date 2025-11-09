@@ -1,11 +1,18 @@
 import { useEffect, useState, useCallback } from "react";
-import { ActivityIndicator, FlatList, RefreshControl } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  Alert,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { YStack, Text } from "tamagui";
-import { api } from "@/lib/api";
 import { useUser } from "@/lib/user-context";
 import { ListRow } from "@/components/ui/list-row";
 import { Button } from "@/components/ui/button";
+import { provider } from "@/lib/providers";
+import { useNotePrefs } from "@/lib/note-preferences";
+import { router } from "expo-router";
 
 type Repo = {
   id: number;
@@ -18,7 +25,8 @@ type Repo = {
 };
 
 export default function HomeScreen() {
-  const { isAuthenticated } = useUser();
+  const { isAuthenticated, refreshUser } = useUser();
+  const { setRepo } = useNotePrefs();
   const [repos, setRepos] = useState<Repo[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -27,7 +35,7 @@ export default function HomeScreen() {
   const load = useCallback(async () => {
     try {
       setError(null);
-      const data = await api.get<Repo[]>("/github/repos");
+      const data = await provider.listRepos();
       setRepos(data);
     } catch (e: any) {
       setError(e?.message ?? "Failed to load repositories");
@@ -35,6 +43,15 @@ export default function HomeScreen() {
       setLoading(false);
     }
   }, []);
+
+  const handleSignIn = useCallback(async () => {
+    try {
+      await provider.signIn();
+      await refreshUser();
+    } catch (e: any) {
+      Alert.alert("Sign-in failed", e?.message ?? String(e));
+    }
+  }, [refreshUser]);
 
   useEffect(() => {
     if (isAuthenticated) void load();
@@ -49,8 +66,14 @@ export default function HomeScreen() {
   if (!isAuthenticated) {
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <YStack f={1} ai="center" jc="center" p="$4" bg="$color1">
-          <Text>Please sign in to view your repositories.</Text>
+        <YStack f={1} ai="center" jc="center" p="$4" gap="$4" bg="$color1">
+          <Text fontWeight="700" color="$color11">
+            You’re not signed in
+          </Text>
+          <Text color="$color11" opacity={0.8} ta="center">
+            Please sign in to view your repositories and start writing notes.
+          </Text>
+          <Button title="Login with GitHub" onPress={handleSignIn} />
         </YStack>
       </SafeAreaView>
     );
@@ -93,6 +116,23 @@ export default function HomeScreen() {
               title={item.full_name}
               subtitle={item.description ?? undefined}
               rightText={`★ ${item.stargazers_count ?? 0}`}
+              onPress={() => {
+                const [owner, name] = item.full_name.split("/");
+                Alert.alert("Use this repository?", item.full_name, [
+                  { text: "Cancel", style: "cancel" },
+                  {
+                    text: "Confirm",
+                    onPress: async () => {
+                      await setRepo({
+                        owner,
+                        name,
+                        fullName: item.full_name,
+                      });
+                      router.push("/folder-setup");
+                    },
+                  },
+                ]);
+              }}
             />
           )}
         />

@@ -12,14 +12,17 @@ Components:
 
 # UX
 
-- A user enteres a screen
-- Logs in with Github
-- The user to redirected to a screen where connected repositories are listed
-  - If no repo is connected, show a button "connect repository"
-  - A list of repos should be presented, from which the user chooses one repo
-  - A message shows that the repo is now connected
-  - The user is redirected back to the repos overview
-- At least one repo is now connected and the user can click this repo
-- Continue in markdown editor
-- Set file name and write content in markdown
-- Encrypt markdown file and commit changes
+Home Screen
+→ “Login with GitHub”
+
+Select Repository
+→ Show GitHub repos → Tap one → Confirm access
+
+Set Default Folder
+→ “Where should notes be stored?” → default /notes/
+
+Editor
+→ Write note → Tap “Commit” → Confirm → Done
+
+Next time you open app
+→ Lands directly in the editor (default repo + folder preloaded)

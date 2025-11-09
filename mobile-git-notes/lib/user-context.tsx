@@ -7,7 +7,7 @@ import React, {
   useState,
 } from "react";
 import { clearToken, getToken } from "./auth";
-import { api } from "./api";
+import { provider } from "./providers";
 
 type AppUser = {
   id: number;
@@ -36,7 +36,7 @@ export function UserProvider({ children }: { children: React.ReactNode }) {
         setUser(null);
         return;
       }
-      const me = await api.get<AppUser>("/auth/github/me");
+      const me = await provider.getUser();
       console.log("Signed in user:", me);
       setUser(me);
     } catch {
