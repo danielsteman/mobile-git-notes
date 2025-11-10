@@ -3,19 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
-    "@tamagui/next-plugin": "^1.136.9",
     "next": "16.0.1",
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "react-native-svg": "^15.14.0",
-    "react-native-web": "^0.21.2",
-    "tamagui": "^1.136.9"
+    "react-native-svg": "^15.11.0",
+    "react-native-web": "~0.21.0",
+    "tamagui": "1.106.0"
   },
   "devDependencies": {
     "@types/node": "^20",
