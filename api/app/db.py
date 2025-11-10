@@ -4,6 +4,7 @@ from sqlalchemy.orm.session import Session
 from collections.abc import Generator
 
 from sqlalchemy import create_engine
+from sqlalchemy.engine import make_url
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
 from .settings import settings
@@ -16,12 +17,20 @@ class Base(DeclarativeBase):
 
 
 # Create the SQLAlchemy engine and SessionLocal using the configured URL.
-# Neon requires SSL; enforce it via connect_args to avoid plaintext connections.
-engine = create_engine(
-    settings.database_url,
-    pool_pre_ping=True,
-    connect_args={"sslmode": "require"},
-)
+# For Postgres (Neon), enforce SSL with sslmode=require. For other drivers (e.g., SQLite in tests),
+# do not pass unsupported connect args.
+_url = make_url(settings.database_url)
+if _url.drivername.startswith("postgresql"):
+    engine = create_engine(
+        settings.database_url,
+        pool_pre_ping=True,
+        connect_args={"sslmode": "require"},
+    )
+else:
+    engine = create_engine(
+        settings.database_url,
+        pool_pre_ping=True,
+    )
 SessionLocal = sessionmaker[Session](
     bind=engine, expire_on_commit=False, class_=Session
 )

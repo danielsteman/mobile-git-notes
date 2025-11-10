@@ -18,7 +18,7 @@ JWT_ISSUER=
 Notes:
 
 - `ENCRYPTION_KEY` should be a base64-encoded 32-byte key.
-- Example `DATABASE_URL` for Neon Local: `postgresql+psycopg2://neon:npg@localhost:5432/<database_name>?sslmode=require`
+- Example `DATABASE_URL` for Neon Local: `postgresql+psycopg://neon:npg@localhost:5432/<database_name>?sslmode=require`
 
 ### Generate ENCRYPTION_KEY
 
@@ -65,7 +65,7 @@ Required environment variables for the `db` service (supply via your shell or `.
 Set the connection URL for the API:
 
 ```bash
-export DATABASE_URL="postgresql+psycopg2://neon:npg@localhost:5432/<database_name>?sslmode=require"
+export DATABASE_URL="postgresql+psycopg://neon:npg@localhost:5432/<database_name>?sslmode=require"
 ```
 
 If port 5432 is in use locally, map to 5433 and update the URL accordingly.
