@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/danielsteman/mobile-git-notes/compare/v1.6.0...v1.6.1) (2025-11-10)
+
+
+### Bug Fixes
+
+* remove tamagui folder ([70af4f4](https://github.com/danielsteman/mobile-git-notes/commit/70af4f425e579187dda59d56eebeb236ca901d4d))
+
 # [1.6.0](https://github.com/danielsteman/mobile-git-notes/compare/v1.5.0...v1.6.0) (2025-11-10)
 
 
