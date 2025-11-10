@@ -23,5 +23,9 @@
     "eslint": "^9",
     "eslint-config-next": "16.0.1",
     "typescript": "^5"
+  },
+  "overrides": {
+    "react": "19.2.0",
+    "react-dom": "19.2.0"
   }
 }
