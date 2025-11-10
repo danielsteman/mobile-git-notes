@@ -155,8 +155,8 @@ cython_debug/
 Thumbs.db
 
 # Allow React Native app sources under mobile-git-notes/lib (needed for CI)
-!mobile-git-notes/lib/
-!mobile-git-notes/lib/**
+!mobile/lib/
+!mobile/lib/**
 
 # Node / JavaScript
 node_modules/

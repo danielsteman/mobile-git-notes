@@ -1,5 +1,6 @@
 import base64
-from typing import Optional
+from typing import Optional, Dict, Optional as Opt
+from urllib.parse import urlparse, parse_qs
 
 import httpx
 from fastapi import APIRouter, Depends, HTTPException
@@ -70,7 +71,52 @@ async def list_repos(
         )
         if resp.status_code >= 400:
             raise HTTPException(status_code=resp.status_code, detail=resp.text)
-        return resp.json()
+        items = resp.json()
+
+        # Parse GitHub Link header for pagination
+        link_hdr = resp.headers.get("link") or resp.headers.get("Link")
+        rel_to_url: Dict[str, str] = {}
+        if link_hdr:
+            parts = [p.strip() for p in link_hdr.split(",")]
+            for part in parts:
+                if ";" not in part:
+                    continue
+                url_part, *attrs = [x.strip() for x in part.split(";")]
+                if not (url_part.startswith("<") and url_part.endswith(">")):
+                    continue
+                url = url_part[1:-1]
+                rel = None
+                for a in attrs:
+                    if a.startswith('rel="') and a.endswith('"'):
+                        rel = a[5:-1]
+                        break
+                if rel:
+                    rel_to_url[rel] = url
+
+        def extract_page(url: str) -> Opt[int]:
+            try:
+                qs = parse_qs(urlparse(url).query)
+                p = qs.get("page", [None])[0]
+                return int(p) if p is not None else None
+            except Exception:
+                return None
+
+        next_page = extract_page(rel_to_url.get("next", "")) if rel_to_url else None
+        prev_page = extract_page(rel_to_url.get("prev", "")) if rel_to_url else None
+        last_page = extract_page(rel_to_url.get("last", "")) if rel_to_url else None
+        first_page = extract_page(rel_to_url.get("first", "")) if rel_to_url else None
+
+        return {
+            "items": items,
+            "page": page,
+            "per_page": per_page,
+            "has_next": next_page is not None,
+            "has_prev": prev_page is not None,
+            "next_page": next_page,
+            "prev_page": prev_page,
+            "first_page": first_page,
+            "last_page": last_page,
+        }
 
 
 class PutFileRequest(BaseModel):

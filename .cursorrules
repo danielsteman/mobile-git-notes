@@ -1,0 +1,15 @@
+## Cursor Rules
+
+These rules guide code edits and generation in this repository.
+
+### Python
+
+- Prefer builtin generics and types (PEP 585) instead of `typing` aliases:
+  - Use `list[T]`, `dict[K, V]`, `set[T]`, `tuple[T, ...]` instead of `typing.List`, `typing.Dict`, etc.
+  - Use `T | None` instead of `typing.Optional[T]` (PEP 604 unions).
+  - Import abstract collection types from `collections.abc` (e.g., `Iterable`, `Mapping`, `Sequence`) rather than `typing`.
+  - Only use `typing` for advanced constructs when necessary (`TypedDict`, `Protocol`, `Literal`, `Final`, `ClassVar`, `TypeVar`, `Generic`).
+- Always add explicit type annotations for all function and method parameters and return values.
+- For each function and method, add a concise docstring describing what it does. Use a one‑sentence summary in the first line, imperative mood when appropriate. Expand briefly only if truly needed.
+- Prefer clear, descriptive names over abbreviations. Avoid single-letter variable names except for conventional indices.
+- Follow PEP 8 formatting and PEP 257 docstring conventions.

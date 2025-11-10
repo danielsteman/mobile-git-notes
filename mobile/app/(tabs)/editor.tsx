@@ -78,7 +78,7 @@ export default function EditorScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <YStack f={1} p="$4" gap="$4" bg="$color1">
+      <YStack f={1} p="$4" gap="$4" bg="$color11">
         <Text fontWeight="700">Editor</Text>
         {!prefs.repo || !prefs.folder ? (
           <YStack gap="$3">

@@ -9,6 +9,9 @@ Components:
   - Auth
   - File CRUD
   - Repo CRUD
+- Database (Neon)
+  - Managed Postgres on Neon
+  - Local development via Neon Local proxy (Docker)
 
 # UX
 
