@@ -44,14 +44,8 @@
   <a href="https://codecov.io/gh/danielsteman/mobile-git-notes" target="_blank">
     <img alt="codecov" src="https://codecov.io/gh/danielsteman/mobile-git-notes/branch/main/graph/badge.svg" />
   </a>
-  <a href="https://github.com/danielsteman/mobile-git-notes/actions/workflows/codeql.yml" target="_blank">
-    <img alt="CodeQL" src="https://github.com/danielsteman/mobile-git-notes/actions/workflows/codeql.yml/badge.svg" />
-  </a>
-  <a href="https://securityscorecards.dev/viewer/?uri=github.com/danielsteman/mobile-git-notes" target="_blank">
-    <img alt="OpenSSF Scorecard" src="https://api.securityscorecards.dev/projects/github.com/danielsteman/mobile-git-notes/badge" />
-  </a>
-  <a href="https://sonarcloud.io/summary/new_code?id=danielsteman_mobile-git-notes" target="_blank">
-    <img alt="Sonar Quality Gate" src="https://sonarcloud.io/api/project_badges/measure?project=danielsteman_mobile-git-notes&metric=alert_status" />
+  <a href="https://mypy-lang.org" target="_blank">
+    <img alt="mypy" src="https://img.shields.io/badge/mypy-checked-2e7d32?logo=mypy&logoColor=white" />
   </a>
 </p>
 

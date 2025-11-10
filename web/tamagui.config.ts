@@ -1,5 +1,5 @@
 import { createTamagui } from "tamagui";
-import { latte, mocha } from "../mobile-git-notes/tamagui.config";
+import { latte, mocha } from "../mobile/tamagui.config";
 
 const config = createTamagui({
   fonts: {
