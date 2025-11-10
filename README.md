@@ -38,9 +38,6 @@
   <a href="https://github.com/danielsteman/mobile-git-notes/actions/workflows/ci.yml" target="_blank">
     <img alt="CI" src="https://github.com/danielsteman/mobile-git-notes/actions/workflows/ci.yml/badge.svg" />
   </a>
-  <a href="https://github.com/danielsteman/mobile-git-notes/actions/workflows/typecheck.yml" target="_blank">
-    <img alt="Type Check" src="https://github.com/danielsteman/mobile-git-notes/actions/workflows/typecheck.yml/badge.svg" />
-  </a>
   <a href="https://codecov.io/gh/danielsteman/mobile-git-notes" target="_blank">
     <img alt="codecov" src="https://codecov.io/gh/danielsteman/mobile-git-notes/branch/main/graph/badge.svg" />
   </a>
