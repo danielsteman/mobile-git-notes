@@ -101,3 +101,7 @@
 </p>
 
 I've been journaling in a private repo, in markdown files, use a pre-commit hook that encrypts notes using a private GPG key. This workflow is very basic but works well on a machine. Sometimes, however, I have ideas on the road that I want to commit to my journal, but the only device in reach is my mobile device. For this reason I thought it'd be fun to have a mobile app with a Git(hub|lab)|Bitbucket integration and a markdown editor, so you can commit ideas from anywhere, in a safe and private way.
+
+## Database
+
+This project uses Postgres hosted on Neon. For local development we run the [Neon Local](https://neon.com/docs/local/neon-local) proxy in Docker (see `docker-compose.yml` service `db`). Applications connect to `postgres://neon:npg@localhost:5432/<database>?sslmode=require` and the proxy securely routes to the configured Neon project/branch. The backend enforces SSL (`sslmode=require`) in its SQLAlchemy engine.

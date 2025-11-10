@@ -18,7 +18,7 @@ JWT_ISSUER=
 Notes:
 
 - `ENCRYPTION_KEY` should be a base64-encoded 32-byte key.
-- Example `DATABASE_URL` for Postgres (see below): `postgresql+psycopg://mgn:mgn@localhost:5432/mgn`
+- Example `DATABASE_URL` for Neon Local: `postgresql+psycopg2://neon:npg@localhost:5432/<database_name>?sslmode=require`
 
 ### Generate ENCRYPTION_KEY
 
@@ -42,55 +42,38 @@ openssl rand -base64 32
 node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
 ```
 
-### 2) Run Postgres via Docker
+### 2) Run Neon Local via Docker
 
-Choose one:
+This repository uses [Neon](https://neon.com) for Postgres. For local development, run the Neon Local proxy with Docker (Compose is already configured in `docker-compose.yml` as service `db`).
 
-- One-liner (detached):
+Start via Docker Compose:
 
 ```bash
-docker run -d --name mgn-postgres \
-  -e POSTGRES_USER=mgn -e POSTGRES_PASSWORD=mgn -e POSTGRES_DB=mgn \
-  -p 5432:5432 -v mgn_pg_data:/var/lib/postgresql/data \
-  postgres:16-alpine
+docker compose up -d db
 ```
 
-- docker-compose (recommended): `docker compose up -d`
+Required environment variables for the `db` service (supply via your shell or `.env`):
 
-```yaml
-services:
-  db:
-    image: postgres:16-alpine
-    container_name: mgn-postgres
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: mgn
-      POSTGRES_PASSWORD: mgn
-      POSTGRES_DB: mgn
-    volumes:
-      - mgn_pg_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "mgn"]
-      interval: 5s
-      timeout: 3s
-      retries: 5
-volumes:
-  mgn_pg_data:
-```
+- `NEON_API_KEY`
+- `NEON_PROJECT_ID`
+- One of:
+  - `BRANCH_ID` (connect to an existing branch), or
+  - `PARENT_BRANCH_ID` (create ephemeral branch from parent)
+- Optional:
+  - `DELETE_BRANCH=false` (persist ephemeral branches)
 
 Set the connection URL for the API:
 
 ```bash
-export DATABASE_URL="postgresql+psycopg://mgn:mgn@localhost:5432/mgn"
+export DATABASE_URL="postgresql+psycopg2://neon:npg@localhost:5432/<database_name>?sslmode=require"
 ```
 
 If port 5432 is in use locally, map to 5433 and update the URL accordingly.
 
-Quick psql inside container:
+Quick psql via local proxy:
 
 ```bash
-docker exec -it mgn-postgres psql -U mgn -d mgn
+psql "postgresql://neon:npg@localhost:5432/<database_name>?sslmode=require"
 ```
 
 ### 3) Start the API locally
