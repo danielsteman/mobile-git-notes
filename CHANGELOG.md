@@ -1,3 +1,27 @@
+# [1.6.0](https://github.com/danielsteman/mobile-git-notes/compare/v1.5.0...v1.6.0) (2025-11-10)
+
+
+### Bug Fixes
+
+* fix next build ([2f1001c](https://github.com/danielsteman/mobile-git-notes/commit/2f1001ceef195dece3e5c52190f7d884a9ba2e1b))
+* gitignore ([61a3905](https://github.com/danielsteman/mobile-git-notes/commit/61a3905a00e4d5bd68c7116e3067a2269426702d))
+* ignore .tamagui ([9226ac4](https://github.com/danielsteman/mobile-git-notes/commit/9226ac44f69da807a5ab7eb3d288fcfe5032955f))
+* next build ([075c6c9](https://github.com/danielsteman/mobile-git-notes/commit/075c6c920efad87cba3729d085569b24633e2d59))
+* next setup ([9efc3c1](https://github.com/danielsteman/mobile-git-notes/commit/9efc3c19f53afcf7aab9dcb5495e8c5191dbf9e1))
+* poetry lock ([fd6b79d](https://github.com/danielsteman/mobile-git-notes/commit/fd6b79d4fd765e8fe1b3f269468514a68b070fdd))
+* remove public svg nextjs boilerplate ([bab95f4](https://github.com/danielsteman/mobile-git-notes/commit/bab95f45786e59a478c5209a97766ee0bbd4c8d0))
+* rename mobile folder ([31ff738](https://github.com/danielsteman/mobile-git-notes/commit/31ff7388fdab2e4ab7eaf9ec65ba847542e24ff4))
+* web dependencies ([13da8fe](https://github.com/danielsteman/mobile-git-notes/commit/13da8fe58d1a8fb2826729fb40e2e330c5c3b8e1))
+
+
+### Features
+
+* add cursorrules ([682e2e6](https://github.com/danielsteman/mobile-git-notes/commit/682e2e686b16c29c98e77e8c1b946a75e6221948))
+* add pagination to repos endpoint ([6569882](https://github.com/danielsteman/mobile-git-notes/commit/6569882b5ce68297e950f7ec32933578e53fca35))
+* init web ([f5c9a41](https://github.com/danielsteman/mobile-git-notes/commit/f5c9a4121dee091b1b64981d69f24a43398b7524))
+* migrate from postgres to neon ([f44963f](https://github.com/danielsteman/mobile-git-notes/commit/f44963faf0b924841d13f3316dc676de27b8a92f))
+* use pagination in mobile app ([8eca7c9](https://github.com/danielsteman/mobile-git-notes/commit/8eca7c9596b77e2ca94651c00ebb2c70b235417d))
+
 # [1.5.0](https://github.com/danielsteman/mobile-git-notes/compare/v1.4.1...v1.5.0) (2025-11-09)
 
 
