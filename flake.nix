@@ -1,5 +1,5 @@
 {
-  description = "Dev shells for backend (FastAPI) and frontend (Expo)";
+  description = "Dev shells for API (FastAPI), Mobile (Expo), and Web (Next.js)";
 
   nixConfig = {
     # Binary cache configuration - ensures all nix develop commands use these caches
@@ -62,13 +62,29 @@
             ];
             shellHook = ''
               echo "Mobile shell: Node $(node -v)"
-              echo "Tip: cd mobile-git-notes && npm install && npm run start"
+              echo "Tip: cd mobile && npm install && npm run start"
               echo "Ngrok available: run 'ngrok http http://localhost:8081' for Metro"
 
               # Aliases for mobile development
-              alias dev-mobile='cd mobile-git-notes && npm install && npm run start'
+              alias dev-mobile='cd mobile && npm install && npm run start'
               alias start-mobile='dev-mobile'
               alias ngrok-metro='ngrok http http://localhost:8081'
+            '';
+          };
+
+          web = pkgs.mkShell {
+            name = "mobile-git-notes-web";
+            packages = [
+              pkgs.nodejs_22
+            ];
+            shellHook = ''
+              echo "Web shell: Node $(node -v)"
+              echo "Tip: cd web && npm install && npm run dev"
+
+              # Aliases for web development
+              alias dev-web='cd web && npm install && npm run dev'
+              alias build-web='cd web && npm install && npm run build'
+              alias lint-web='cd web && npm install && npm run lint'
             '';
           };
 
@@ -101,13 +117,17 @@
               echo "Full shell ready. Python $(python --version), Node $(node -v)"
               echo "- DB via Docker: 'docker compose up db'"
               echo "- API: 'cd api && poetry run uvicorn app.main:app --reload --port 8080'"
-              echo "- Mobile: 'cd mobile-git-notes && npm install && npm run start'"
+              echo "- Mobile: 'cd mobile && npm install && npm run start'"
+              echo "- Web: 'cd web && npm install && npm run dev'"
               echo "- Orchestrate: 'process-compose --config ./process-compose.yaml up'"
 
               # Aliases for full development environment
               alias dev-api='cd api && poetry install && poetry run uvicorn app.main:app --reload --port 8080'
               alias start-api='dev-api'
-              alias dev-mobile='cd mobile-git-notes && npm install && npm run start'
+              alias dev-mobile='cd mobile && npm install && npm run start'
+              alias dev-web='cd web && npm install && npm run dev'
+              alias lint-web='cd web && npm install && npm run lint'
+              alias build-web='cd web && npm install && npm run build'
               alias start-mobile='dev-mobile'
               alias ngrok-api='ngrok http http://localhost:8080'
               alias ngrok-metro='ngrok http http://localhost:8081'
@@ -139,7 +159,14 @@
           mobile = {
             type = "app";
             program = pkgs.writeShellScript "mobile" ''
-              exec nix develop .#mobile -c sh -lc 'cd mobile-git-notes && npm install && npm run start'
+              exec nix develop .#mobile -c sh -lc 'cd mobile && npm install && npm run start'
+            '';
+          };
+
+          web = {
+            type = "app";
+            program = pkgs.writeShellScript "web" ''
+              exec nix develop .#web -c sh -lc 'cd web && npm install && npm run dev'
             '';
           };
 
