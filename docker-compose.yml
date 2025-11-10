@@ -1,19 +1,17 @@
 services:
   db:
-    image: postgres:16-alpine
-    container_name: mgn-postgres
+    image: neondatabase/neon_local:latest
+    container_name: mgn-neon-local
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: mgn
-      POSTGRES_PASSWORD: mgn
-      POSTGRES_DB: mgn
-    volumes:
-      - mgn_pg_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD", "pg_isready", "-U", "mgn"]
-      interval: 5s
-      timeout: 3s
-      retries: 5
-volumes:
-  mgn_pg_data:
+      NEON_API_KEY: ${NEON_API_KEY}
+      NEON_PROJECT_ID: ${NEON_PROJECT_ID}
+      # Choose ONE of the following for branch behavior:
+      # BRANCH_ID: ${BRANCH_ID}            # connect to an existing branch
+      # PARENT_BRANCH_ID: ${PARENT_BRANCH_ID}  # create ephemeral branch from parent
+      # DELETE_BRANCH: ${DELETE_BRANCH:-true}  # set false to persist ephemeral branches
+    # Optional: persist a branch per Git branch
+    # volumes:
+    #   - ./.neon_local/:/tmp/.neon_local
+    #   - ./.git/HEAD:/tmp/.git/HEAD:ro,consistent
