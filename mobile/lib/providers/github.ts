@@ -143,8 +143,59 @@ export const githubProvider: GitProvider = {
   },
 
   async listRepos(): Promise<GitRepo[]> {
-    // Fetch first page; can extend with pagination later
-    return withAuth<GitRepo[]>("/user/repos?per_page=50");
+    // Fetch all repositories by following GitHub pagination via Link headers
+    const token = await getToken();
+    if (!token) throw new Error("Not authenticated");
+
+    const allRepos: GitRepo[] = [];
+    let nextUrl:
+      | string
+      | undefined = `${GITHUB_API}/user/repos?per_page=100&page=1`;
+
+    while (nextUrl) {
+      const resp: Response = await fetch(nextUrl, {
+        method: "GET",
+        headers: {
+          Accept: "application/vnd.github+json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!resp.ok) {
+        const text = await resp.text();
+        throw new Error(text || `Request failed with ${resp.status}`);
+      }
+      const pageItems = (await resp.json()) as GitRepo[];
+      allRepos.push(...pageItems);
+
+      const link: string | null =
+        resp.headers.get("link") || resp.headers.get("Link");
+      nextUrl = undefined;
+      if (link) {
+        // Parse Link header to find rel="next"
+        const parts: string[] = link.split(",").map((p: string) => p.trim());
+        for (const part of parts) {
+          const segments: string[] = part
+            .split(";")
+            .map((x: string) => x.trim());
+          const urlPart: string = segments[0] || "";
+          const attrs: string[] = segments.slice(1);
+          if (!urlPart?.startsWith("<") || !urlPart.endsWith(">")) continue;
+          const url: string = urlPart.slice(1, -1);
+          const hasNextRel = attrs.some(
+            (a: string) =>
+              a.startsWith('rel="') &&
+              a.endsWith('"') &&
+              a.slice(5, -1) === "next"
+          );
+          if (hasNextRel) {
+            nextUrl = url;
+            break;
+          }
+        }
+      }
+    }
+
+    return allRepos;
   },
 
   async putFile(params: CommitFileParams): Promise<any> {
