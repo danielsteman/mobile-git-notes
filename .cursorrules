@@ -13,3 +13,12 @@ These rules guide code edits and generation in this repository.
 - For each function and method, add a concise docstring describing what it does. Use a one‑sentence summary in the first line, imperative mood when appropriate. Expand briefly only if truly needed.
 - Prefer clear, descriptive names over abbreviations. Avoid single-letter variable names except for conventional indices.
 - Follow PEP 8 formatting and PEP 257 docstring conventions.
+
+### Web and Mobile (Tamagui)
+
+- Prefer the shared Tamagui theme for all styling to ensure consistency across `web` and `mobile`.
+  - Use theme tokens for colors, spacing, typography, radii, and shadows (avoid hard‑coded values).
+  - Prefer Tamagui components and variants over inline styles when possible.
+  - If a needed token or variant is missing, add it to the shared theme rather than hardcoding ad‑hoc styles.
+  - Keep `web/tamagui.config.ts` and `mobile/tamagui.config.ts` aligned; mirror relevant theme updates in both places.
+  - Favor shared themed primitives/components (e.g., themed text/view wrappers) before creating local style duplicates.
