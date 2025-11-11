@@ -27,8 +27,8 @@
       in
       {
         devShells = rec {
-          backend = pkgs.mkShell {
-            name = "mobile-git-notes-backend";
+          api = pkgs.mkShell {
+            name = "mobile-git-notes-api";
             packages = [
               pkgs.python312
               pkgs.poetry
@@ -41,11 +41,11 @@
               pkgs.python312Packages.pytest
             ];
             shellHook = ''
-              echo "Backend shell: Python $(python --version), Poetry $(poetry --version)"
+              echo "Api shell: Python $(python --version), Poetry $(poetry --version)"
               echo "Tip: cd api && poetry install && poetry run uvicorn app.main:app --reload --port 8080"
               echo "Ngrok: ngrok http http://localhost:8080"
 
-              # Aliases for backend development
+              # Aliases for api development
               alias dev-api='cd api && poetry install && poetry run uvicorn app.main:app --reload --port 8080'
               alias start-api='dev-api'
               alias ngrok-api='ngrok http http://localhost:8080'
