@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { YStack, XStack, H2, H3, Paragraph, Separator } from "tamagui";
 
@@ -67,7 +67,6 @@ export default function ChangelogClient({ releases }: { releases: Release[] }) {
                     alignItems="center"
                     gap="$2"
                     backgroundColor={sectionColor(sec.title)}
-                    color="$color1"
                     borderRadius="$2"
                     paddingHorizontal="$2"
                     paddingVertical="$1"
