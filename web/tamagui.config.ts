@@ -16,6 +16,11 @@ const latte = {
   color12: "#4c4f69",
   blue10: "#1e66f5",
   red10: "#d20f39",
+  // Additional accent/neutral tokens used in UI
+  green10: "#40A02B",
+  orange10: "#FE640B",
+  purple10: "#8839EF",
+  gray10: "#9ca0b0",
 } as const;
 
 const mocha = {
@@ -33,6 +38,11 @@ const mocha = {
   color12: "#cdd6f4",
   blue10: "#89b4fa",
   red10: "#f38ba8",
+  // Additional accent/neutral tokens used in UI
+  green10: "#A6E3A1",
+  orange10: "#FAB387",
+  purple10: "#CBA6F7",
+  gray10: "#6c7086",
 } as const;
 
 const config = createTamagui({
@@ -63,5 +73,11 @@ const config = createTamagui({
     color: theme.color1,
   }),
 });
+
+type AppConfig = typeof config;
+
+declare module "tamagui" {
+  interface TamaguiCustomConfig extends AppConfig {}
+}
 
 export default config;

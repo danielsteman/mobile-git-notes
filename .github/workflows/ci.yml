@@ -49,7 +49,7 @@ jobs:
 
       - name: Run pre-commit in Nix dev shell (api/)
         run: |
-          nix develop .#backend --command bash -lc "pre-commit run --all-files"
+          nix develop .#api --command bash -lc "pre-commit run --all-files"
 
   api-test:
     name: API tests
@@ -68,7 +68,7 @@ jobs:
 
       - name: Run pytest in Nix dev shell (api/)
         run: |
-          nix develop .#backend --command bash -lc "\
+          nix develop .#api --command bash -lc "\
             cd api && \
             export POETRY_VIRTUALENVS_IN_PROJECT=true && \
             poetry --version && \
