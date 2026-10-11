@@ -1,3 +1,18 @@
+# [1.7.0](https://github.com/danielsteman/mobile-git-notes/compare/v1.6.1...v1.7.0) (2026-10-11)
+
+
+### Bug Fixes
+
+* add cursorrule to use tamagui ([2a3578f](https://github.com/danielsteman/mobile-git-notes/commit/2a3578fecb45e09b093c39ee28fc63c89ec26ac0))
+* use renamed api shell ([c1430e2](https://github.com/danielsteman/mobile-git-notes/commit/c1430e27ee758124dd4e3d5a0eaea43e5aa32256))
+* use renamed api shell in nix cache ([e470f44](https://github.com/danielsteman/mobile-git-notes/commit/e470f44314771ae2c33c2727dabb7b356e0b80d5))
+
+
+### Features
+
+* frontend wip ([6c99cd6](https://github.com/danielsteman/mobile-git-notes/commit/6c99cd6f088c4d60cb80f8b1596f2c17133971c6))
+* render changelogs ([4fe653a](https://github.com/danielsteman/mobile-git-notes/commit/4fe653aa43069d32f1f9d95a597888ef263f2e4c))
+
 ## [1.6.1](https://github.com/danielsteman/mobile-git-notes/compare/v1.6.0...v1.6.1) (2025-11-10)
 
 
