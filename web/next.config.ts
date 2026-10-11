@@ -1,13 +1,11 @@
 import type { NextConfig } from "next";
+import { withTamagui } from "@tamagui/next-plugin";
 
-const nextConfig: NextConfig = {
+const baseConfig: NextConfig = {
   experimental: { externalDir: true },
-  // Silence Next.js 16 Turbopack + webpack warning and set correct workspace root
   turbopack: {
     root: __dirname,
   },
-  // Empty turbopack config silences Turbopack + webpack warning if you switch back later
-  // turbopack: {},
   transpilePackages: ["tamagui", "react-native-web", "react-native-svg"],
   webpack: (config) => {
     config.resolve.alias = {
@@ -18,4 +16,11 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+const tamagui = withTamagui({
+  config: "./tamagui.config.ts",
+  components: ["tamagui"],
+  outputCSS: process.env.NODE_ENV === "production" ? "./public/tamagui.css" : null,
+  disableExtraction: process.env.NODE_ENV === "development",
+});
+
+export default tamagui(baseConfig);
